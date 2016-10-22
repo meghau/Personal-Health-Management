@@ -65,6 +65,11 @@ public class Patient_Menu extends javax.swing.JFrame {
         });
 
         HealthSupporters.setText("Health Supporters");
+        HealthSupporters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HealthSupportersActionPerformed(evt);
+            }
+        });
 
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -125,7 +130,9 @@ public class Patient_Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutActionPerformed
 
     private void AlertsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlertsActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        Alerts obj = new Alerts();
+        obj.setVisible(true);
     }//GEN-LAST:event_AlertsActionPerformed
 
     private void ProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfileMouseClicked
@@ -137,6 +144,12 @@ public class Patient_Menu extends javax.swing.JFrame {
         Profile profile = new Profile();
         profile.setVisible(true);
     }//GEN-LAST:event_ProfileActionPerformed
+
+    private void HealthSupportersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HealthSupportersActionPerformed
+        this.setVisible(false);
+        Health_Supporter hs = new Health_Supporter();
+        hs.setVisible(true);
+    }//GEN-LAST:event_HealthSupportersActionPerformed
 
     /**
      * @param args the command line arguments
