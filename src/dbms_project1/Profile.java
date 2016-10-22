@@ -16,6 +16,7 @@ public class Profile extends javax.swing.JFrame {
      */
     public Profile() {
         initComponents();
+        System.out.println("Hello Priyanka");
     }
 
     /**
