@@ -22,6 +22,7 @@ public class DBMS_Project1 {
        
         // TODO code application logic here
         new DBMS_Connection();
+        System.out.println("yo");
         
         LoginFrame lf = new LoginFrame();
         lf.setVisible(true);
