@@ -22,7 +22,7 @@ public class DBMS_Project1 {
        
         // TODO code application logic here
         new DBMS_Connection();
-        
+        System.out.print("meg");
         LoginFrame lf = new LoginFrame();
         lf.setVisible(true);
     }
