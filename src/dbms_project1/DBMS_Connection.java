@@ -25,7 +25,7 @@ public class DBMS_Connection {
     public static String PASS = "200107889";
     public static Connection connection = null;
     
-    public DBMS_Connection()
+    public static Connection get()
     {
   
   // create connection in JDBC  
@@ -37,7 +37,7 @@ try {
 
 			System.out.println("Where is your Oracle JDBC Driver?");
 			e.printStackTrace();
-			return;
+			return null;
 
 		}
 
@@ -48,19 +48,25 @@ try {
 		try {
 
 			connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:ORCL", "sgulati2",
-					"200109633");
-
-		      // Close the connection
+					"jdbc:oracle:thin:@orca.csc.ncsu.edu:1521:orcl01", "mumesha",
+					"200107889");
+                        
+                        System.out.println("hey this conection is done"+(connection==null));
+		      // Close the connec   tion
 		     // connection.close();  
 
 		} catch (SQLException e) {
 
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
-			return;
+			return null;
 
 		}
-  }    
+        return connection;
+  }  
+    
+    
+    
+    
 } 
 

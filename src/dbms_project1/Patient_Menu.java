@@ -5,6 +5,12 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author aishu
@@ -56,6 +62,11 @@ public class Patient_Menu extends javax.swing.JFrame {
         });
 
         HealthIndicator.setText("Health Indicator");
+        HealthIndicator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HealthIndicatorActionPerformed(evt);
+            }
+        });
 
         Alerts.setText("Alerts");
         Alerts.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +132,15 @@ public class Patient_Menu extends javax.swing.JFrame {
         this.setVisible(false);
         View_Edit_Diagnoses ved = new View_Edit_Diagnoses();
         ved.setVisible(true);
+        
+        try {
+            Connection con = DBMS_Connection.get();
+            System.out.println((con==null));
+            PreparedStatement ps = con.prepareStatement("select * from mumesha.Patient;");
+        } catch (SQLException ex) {
+            Logger.getLogger(Patient_Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_DiagnosesActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
@@ -150,6 +170,12 @@ public class Patient_Menu extends javax.swing.JFrame {
         Health_Supporter hs = new Health_Supporter();
         hs.setVisible(true);
     }//GEN-LAST:event_HealthSupportersActionPerformed
+
+    private void HealthIndicatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HealthIndicatorActionPerformed
+        this.setVisible(false);
+        All_Indicators obj = new All_Indicators();
+        obj.setVisible(true);
+    }//GEN-LAST:event_HealthIndicatorActionPerformed
 
     /**
      * @param args the command line arguments
