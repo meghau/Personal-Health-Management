@@ -94,12 +94,15 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void access_patient_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_access_patient_buttonActionPerformed
-        // TODO add your handling code here:
-        
+        this.setVisible(false);
+        Profile pr = new Profile();
+        pr.setVisible(true);
     }//GEN-LAST:event_access_patient_buttonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        Profile pr = new Profile();
+        pr.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
