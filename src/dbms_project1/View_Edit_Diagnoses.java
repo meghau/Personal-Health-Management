@@ -46,7 +46,12 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         Current_Diag.setRows(5);
         jScrollPane1.setViewportView(Current_Diag);
 
-        disease.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Heart Disease", "HIV", "COPD", " " }));
+        disease.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "HD", "HIV", "COPD", " " }));
+        disease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diseaseActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Diagnoses");
 
@@ -105,8 +110,12 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
            // DBMS_Connection.
             Connection con=DBMS_Connection.get();
             Statement stmt=con.createStatement();
+            String query="insert into diagnosis values(121,?)"; 
+            PreparedStatement ps=con.prepareStatement(query);
             
-            ResultSet rs=stmt.executeQuery("INSERT INTO Diagnosis"+ "VALUES(123,"+diseases+")");
+            ps.setString(1,diseases);
+            
+            ps.executeQuery();
           /* while (rs.next()) {
 		    String s = rs.getString("ID");
 		    String n = rs.getString("NAME");
@@ -117,6 +126,10 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_Add_diagActionPerformed
+
+    private void diseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diseaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_diseaseActionPerformed
 
     /**
      * @param args the command line arguments
