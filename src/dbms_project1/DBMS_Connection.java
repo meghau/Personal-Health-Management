@@ -30,6 +30,7 @@ public class DBMS_Connection {
         
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
+            //Class.forName("com.mysql.jdbc.Driver"); 
 
 	} catch (ClassNotFoundException e) {
             System.out.println("OJDBC not found.");
@@ -42,6 +43,8 @@ public class DBMS_Connection {
             connection = DriverManager.getConnection(
 		"jdbc:oracle:thin:@orca.csc.ncsu.edu:1521:orcl01", "pspurani",
 		"200107643");
+//            connection =DriverManager.getConnection(  
+//            "jdbc:mysql://localhost:3306/health_management","root","root");
 	} catch (SQLException e) {
             System.out.println("Connection Failed! Check output console");
             e.printStackTrace();
