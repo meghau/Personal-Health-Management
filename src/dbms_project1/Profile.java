@@ -6,6 +6,12 @@
 package dbms_project1;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +25,86 @@ public class Profile extends javax.swing.JFrame {
     public Profile() {
         initComponents();
         Connection con = DBMS_Connection.get();
-        
+        String id = DBMS_Connection.loginID;
+        String type = DBMS_Connection.loginType;
+       // System.out.println(id+""+type);
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        if(type.equals("patient"))
+        {
+           /* String query = "select * from patient p where p.id = "+id+";";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String pid="",date="",name="",addr="",gender="",category="";
+            try {
+                if(rs.next())
+                {
+                  pid = rs.getString(1);
+                  date = rs.getString(2);
+                  name = rs.getString(3);
+                  addr = rs.getString(4);
+                  gender = rs.getString(5);
+                  category = type;
+                }
+                Patient_ID.setText(pid);
+                Patient_Name.setText(name);
+                Patient_Address.setText(addr);
+                Patient_DOB.setText(date);
+                Patient_Gender.setText(gender);
+                Patient_Category.setText("");
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+        }
+        else
+        {
+            String query = "select * from Health_Supporter h,patient p where p.id = '"+id+"' AND h.id=p.id";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String pid="",name="",addr="",gender="",category="";
+          //  Date date=new Date();
+            try {
+                if(rs.next())
+                {
+                  pid = rs.getString(2);
+          //        date = rs.getDate(3);
+                  name = rs.getString(4);
+                  addr = rs.getString(5);
+                  gender = rs.getString(6);
+                  category = type;
+                }
+                
+                Patient_ID.setText(pid);
+                Patient_Name.setText(name);
+                Patient_Address.setText(addr);
+             //   Patient_DOB.setText(dateFormat.format(date));
+                Patient_Gender.setText(gender);
+                Patient_Category.setText("");
+            } catch (SQLException ex) {
+                System.out.println("rs.next");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -183,6 +268,24 @@ public class Profile extends javax.swing.JFrame {
         this.setVisible(false);
         Patient_Menu menu = new Patient_Menu();
         menu.setVisible(true);
+        Connection con = DBMS_Connection.get();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String id = DBMS_Connection.loginID;
+        String date = Patient_DOB.getText();
+        String query = "update patient p set p.dob='"+date+"', p.name = '"+Patient_Name+"', p.gender='"+Patient_Gender+"', p.address='"+Patient_Address+"' where p.id = '"+id+"'";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
