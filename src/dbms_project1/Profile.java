@@ -10,6 +10,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,24 +85,32 @@ public class Profile extends javax.swing.JFrame {
             }
             
             String pid="",name="",addr="",gender="",category="";
-          //  Date date=new Date();
+            
+            
+            Date date=null;
             try {
                 if(rs.next())
                 {
                   pid = rs.getString(2);
-          //        date = rs.getDate(3);
+                  date = rs.getDate(3);
                   name = rs.getString(4);
                   addr = rs.getString(5);
                   gender = rs.getString(6);
                   category = type;
                 }
                 
+                
                 Patient_ID.setText(pid);
                 Patient_Name.setText(name);
                 Patient_Address.setText(addr);
-             //   Patient_DOB.setText(dateFormat.format(date));
+                System.out.println(date);
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Patient_DOB.setText(formatter.format(date));
                 Patient_Gender.setText(gender);
                 Patient_Category.setText("");
+                
+                
+                
             } catch (SQLException ex) {
                 System.out.println("rs.next");
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
@@ -273,7 +284,17 @@ public class Profile extends javax.swing.JFrame {
         ResultSet rs = null;
         String id = DBMS_Connection.loginID;
         String date = Patient_DOB.getText();
-        String query = "update patient p set p.dob='"+date+"', p.name = '"+Patient_Name+"', p.gender='"+Patient_Gender+"', p.address='"+Patient_Address+"' where p.id = '"+id+"'";
+        System.out.println("if save"+date);
+        String[] arrdate = date.split("-");
+        String month = "";
+        int num = Integer.parseInt(arrdate[1]);
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        if (num >= 0 && num <= 11 ) {
+            month = months[num-1];
+        }
+        String d = arrdate[0]+"-"+month+"-"+arrdate[2];      
+        String query = "update patient p set p.dob='"+d+"', p.address='"+Patient_Address.getText()+"',p.name='"+Patient_Name.getText()+"',p.gender='"+Patient_Gender.getText()+"' where p.id = '"+id+"'";
             try {
                 pstmt = con.prepareStatement(query);
             } catch (SQLException ex) {
@@ -286,6 +307,7 @@ public class Profile extends javax.swing.JFrame {
                 System.out.println("executequery");
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
             }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
