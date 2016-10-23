@@ -25,18 +25,17 @@ public class DBMS_Connection {
     public static String PASS = "200107643";
     public static Connection connection = null;
     
-    public static Connection getConnection(){
+    public static Connection get()
+    {
+        
         try {
-                
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
 	} catch (ClassNotFoundException e) {
-
             System.out.println("OJDBC not found.");
             e.printStackTrace();
             return null;
         }
-
 	System.out.println("Oracle JDBC Driver Registered!");
         Connection connection = null;
 	try {
