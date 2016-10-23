@@ -7,18 +7,37 @@ package dbms_project1;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author abc
  */
 public class View_Edit_Diagnoses extends javax.swing.JFrame {
-
+    int patient_id;
     /**
      * Creates new form View_Edit_Diagnoses
      */
     public View_Edit_Diagnoses() {
-        initComponents();
-        
+        try {
+            initComponents();
+            String s=" ";
+            patient_id=121;
+            Connection con=DBMS_Connection.get();
+            //Statement stmt=con.createStatement();
+            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID="+patient_id;
+            Statement stm=con.createStatement();
+            ResultSet rs=stm.executeQuery(query1);
+            
+            while(rs.next())
+            {
+              s=rs.getString("DISEASE_NAME");
+            }
+            System.out.println(s);
+            Current_Diag.setText(s);
+        } catch (SQLException ex) {
+            Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -107,9 +126,22 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         
         String diseases=(String)disease.getSelectedItem();
         try {
+            boolean flag=false;
            // DBMS_Connection.
             Connection con=DBMS_Connection.get();
-            Statement stmt=con.createStatement();
+            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID="+patient_id;
+            Statement stm=con.createStatement();
+            ResultSet rs=stm.executeQuery(query1);
+            
+            while(rs.next())
+            {
+              if (rs.getString("DISEASE_NAME").equals(diseases))
+              {
+                  
+                  flag=true;
+              }
+            }
+            if(flag==false){
             String query="insert into diagnosis values(121,?)"; 
             PreparedStatement ps=con.prepareStatement(query);
             
@@ -120,7 +152,11 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
 		    String s = rs.getString("ID");
 		    String n = rs.getString("NAME");
 		    System.out.println(s + "   " + n);
-		}*/
+		}*/}
+            else
+            {
+                JOptionPane.showMessageDialog(this,"Diasease exists!");
+            }
     System.out.println(DBMS_Connection.loginID);            
         } catch (SQLException ex) {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
