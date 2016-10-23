@@ -5,6 +5,15 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author meghaumesha
@@ -16,6 +25,9 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        ButtonGroup bG = new ButtonGroup();
+        bG.add(patient_radio);
+        bG.add(hsup_radio);
     }
 
     /**
@@ -29,13 +41,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        uname_patient = new javax.swing.JTextField();
+        uname_text = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        pw_patient = new javax.swing.JPasswordField();
+        pw_text = new javax.swing.JPasswordField();
         login_button = new javax.swing.JButton();
         signup_button = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        student_radio = new javax.swing.JRadioButton();
+        patient_radio = new javax.swing.JRadioButton();
         hsup_radio = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
 
@@ -64,7 +76,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Need an account?");
 
-        student_radio.setText("Student");
+        patient_radio.setText("Patient");
 
         hsup_radio.setText("Health Supporter");
 
@@ -89,7 +101,7 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(student_radio)
+                                .addComponent(patient_radio)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(hsup_radio))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -97,8 +109,8 @@ public class LoginFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                                 .addComponent(signup_button)
                                 .addGap(9, 9, 9))
-                            .addComponent(uname_patient, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pw_patient, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(uname_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pw_text, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(110, 110, 110)
                         .addComponent(jLabel2)))
@@ -112,14 +124,14 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(uname_patient, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(uname_text, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pw_patient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pw_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(student_radio)
+                    .addComponent(patient_radio)
                     .addComponent(hsup_radio))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -162,11 +174,48 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void login_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_buttonActionPerformed
         
+        String sql;
         this.setVisible(false);
-        // create a radio button group
-        // login as patient or health supporter ccording to radio button
-        Patient_Menu pm = new Patient_Menu();
-        pm.setVisible(true);
+        if(patient_radio.isSelected()){
+            System.out.print(uname_text.getText()+ " "+ pw_text.getText());
+            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
+                + "p.password = '" + pw_text.getText()+ "'";
+        }else{
+            sql = "SELECT p.id FROM Health_Supporter h, Patient p WHERE p.id = '"+uname_text.getText()+"' AND "
+                + "p.password = '" +pw_text.getText()+ "' AND p.id = h.id";
+            
+        }
+        System.out.println(sql);
+        PreparedStatement stmt = null;
+        try {
+            Connection con = DBMS_Connection.getConnection();
+            stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+               
+            int f= 0;
+            if(rs.next()){
+                this.setVisible(false);
+                if(patient_radio.isSelected()){
+                    DBMS_Connection.loginType = "patient";
+                    Patient_Menu pm = new Patient_Menu();
+                    pm.setVisible(true);
+                } else{
+                    DBMS_Connection.loginType = "health supporter";
+                    HealthSupMainFrame hs = new HealthSupMainFrame();
+                    hs.setVisible(true);
+                }
+                DBMS_Connection.loginID = uname_text.getText();
+//                f=1;
+//                break;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Incorrect id/password combination. Try again.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_login_buttonActionPerformed
 
     /**
@@ -206,33 +255,15 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton hsup_radio;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JButton login_button;
-    private javax.swing.JPasswordField pw_patient;
+    private javax.swing.JRadioButton patient_radio;
+    private javax.swing.JPasswordField pw_text;
     private javax.swing.JButton signup_button;
-    private javax.swing.JRadioButton student_radio;
-    private javax.swing.JTextField uname_patient;
+    private javax.swing.JTextField uname_text;
     // End of variables declaration//GEN-END:variables
 }

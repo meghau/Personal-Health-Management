@@ -16,51 +16,39 @@ import java.sql.SQLException;
  * @author aishu
  */
 public class DBMS_Connection {
-    public static String loginSession="";
+    public static String loginID="";
     public static String loginpassword="";
     public static String loginType="";
     public static String DRIVER = "oracle.jdbc.driver.OracleDriver";
     public static String DB_URL ="jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:ORCL";
-    public static String USER_NAME = "mumesha";
-    public static String PASS = "200107889";
+    public static String USER_NAME = "pspurani";
+    public static String PASS = "200107643";
     public static Connection connection = null;
     
-    public DBMS_Connection()
-    {
-  
-  // create connection in JDBC  
-try {
+    public static Connection getConnection(){
+        try {
                 
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
 
-		} catch (ClassNotFoundException e) {
+	} catch (ClassNotFoundException e) {
 
-			System.out.println("Where is your Oracle JDBC Driver?");
-			e.printStackTrace();
-			return;
+            System.out.println("OJDBC not found.");
+            e.printStackTrace();
+            return null;
+        }
 
-		}
-
-		System.out.println("Oracle JDBC Driver Registered!");
-
-		Connection connection = null;
-
-		try {
-
-			connection = DriverManager.getConnection(
-					"jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:ORCL", "sgulati2",
-					"200109633");
-
-		      // Close the connection
-		     // connection.close();  
-
-		} catch (SQLException e) {
-
-			System.out.println("Connection Failed! Check output console");
-			e.printStackTrace();
-			return;
-
-		}
-  }    
+	System.out.println("Oracle JDBC Driver Registered!");
+        Connection connection = null;
+	try {
+            connection = DriverManager.getConnection(
+		"jdbc:oracle:thin:@orca.csc.ncsu.edu:1521:orcl01", "pspurani",
+		"200107643");
+	} catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+            return null;
+        }
+        return connection;
+    }
 } 
 
