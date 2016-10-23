@@ -5,6 +5,14 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author aishu
@@ -16,7 +24,87 @@ public class Profile extends javax.swing.JFrame {
      */
     public Profile() {
         initComponents();
-        System.out.println("Hello Priyanka");
+        Connection con = DBMS_Connection.get();
+        String id = DBMS_Connection.loginID;
+        String type = DBMS_Connection.loginType;
+       // System.out.println(id+""+type);
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        if(type.equals("patient"))
+        {
+           /* String query = "select * from patient p where p.id = "+id+";";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String pid="",date="",name="",addr="",gender="",category="";
+            try {
+                if(rs.next())
+                {
+                  pid = rs.getString(1);
+                  date = rs.getString(2);
+                  name = rs.getString(3);
+                  addr = rs.getString(4);
+                  gender = rs.getString(5);
+                  category = type;
+                }
+                Patient_ID.setText(pid);
+                Patient_Name.setText(name);
+                Patient_Address.setText(addr);
+                Patient_DOB.setText(date);
+                Patient_Gender.setText(gender);
+                Patient_Category.setText("");
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+        }
+        else
+        {
+            String query = "select * from Health_Supporter h,patient p where p.id = '"+id+"' AND h.id=p.id";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String pid="",name="",addr="",gender="",category="";
+          //  Date date=new Date();
+            try {
+                if(rs.next())
+                {
+                  pid = rs.getString(2);
+          //        date = rs.getDate(3);
+                  name = rs.getString(4);
+                  addr = rs.getString(5);
+                  gender = rs.getString(6);
+                  category = type;
+                }
+                
+                Patient_ID.setText(pid);
+                Patient_Name.setText(name);
+                Patient_Address.setText(addr);
+             //   Patient_DOB.setText(dateFormat.format(date));
+                Patient_Gender.setText(gender);
+                Patient_Category.setText("");
+            } catch (SQLException ex) {
+                System.out.println("rs.next");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -137,25 +225,28 @@ public class Profile extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Patient_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Patient_DOB_Label)
-                    .addComponent(Patient_DOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Patient_Address_Label)
-                    .addComponent(Patient_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Patient_Gender_Label)
-                    .addComponent(Patient_Gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Patient_Category_Label)
-                    .addComponent(Patient_Category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(15, 15, 15)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Patient_DOB_Label)
+                            .addComponent(Patient_DOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Patient_Address_Label)
+                            .addComponent(Patient_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Patient_Gender_Label)
+                            .addComponent(Patient_Gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Patient_Category_Label)
+                            .addComponent(Patient_Category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -177,6 +268,24 @@ public class Profile extends javax.swing.JFrame {
         this.setVisible(false);
         Patient_Menu menu = new Patient_Menu();
         menu.setVisible(true);
+        Connection con = DBMS_Connection.get();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String id = DBMS_Connection.loginID;
+        String date = Patient_DOB.getText();
+        String query = "update patient p set p.dob='"+date+"', p.name = '"+Patient_Name+"', p.gender='"+Patient_Gender+"', p.address='"+Patient_Address+"' where p.id = '"+id+"'";
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
