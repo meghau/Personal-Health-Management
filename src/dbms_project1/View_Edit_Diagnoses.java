@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dbms_project1;
 
+package dbms_project1;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author abc
@@ -15,6 +18,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
      */
     public View_Edit_Diagnoses() {
         initComponents();
+        
     }
 
     /**
@@ -29,9 +33,9 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Current_Diag = new javax.swing.JTextArea();
-        Add_Diagnoses = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        disease = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
+        Add_diag = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,23 +46,23 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         Current_Diag.setRows(5);
         jScrollPane1.setViewportView(Current_Diag);
 
-        Add_Diagnoses.setText("ADD");
-        Add_Diagnoses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Add_DiagnosesActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Heart Disease", "HIV", "COPD", " " }));
+        disease.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Heart Disease", "HIV", "COPD", " " }));
 
         jLabel2.setText("Diagnoses");
+
+        Add_diag.setText("ADD");
+        Add_diag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Add_diagActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jLabel1)
@@ -66,10 +70,10 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(Add_Diagnoses)))
-                .addContainerGap(85, Short.MAX_VALUE))
+                        .addComponent(disease, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Add_diag)))
+                .addGap(85, 85, 85))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -86,17 +90,33 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Add_Diagnoses))
+                    .addComponent(disease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Add_diag))
                 .addGap(69, 69, 69))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Add_DiagnosesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_DiagnosesActionPerformed
+    private void Add_diagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_diagActionPerformed
         
-    }//GEN-LAST:event_Add_DiagnosesActionPerformed
+        String diseases=(String)disease.getSelectedItem();
+        try {
+           // DBMS_Connection.
+            Connection con=DBMS_Connection.get();
+            Statement stmt=con.createStatement();
+            
+            ResultSet rs=stmt.executeQuery("INSERT INTO Diagnosis"+ "VALUES(123,"+diseases+")");
+          /* while (rs.next()) {
+		    String s = rs.getString("ID");
+		    String n = rs.getString("NAME");
+		    System.out.println(s + "   " + n);
+		}*/
+    System.out.println(DBMS_Connection.loginID);            
+        } catch (SQLException ex) {
+            Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_Add_diagActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,9 +153,9 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Add_Diagnoses;
+    private javax.swing.JButton Add_diag;
     private javax.swing.JTextArea Current_Diag;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox disease;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

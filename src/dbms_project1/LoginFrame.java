@@ -187,7 +187,8 @@ public class LoginFrame extends javax.swing.JFrame {
         }
         System.out.println(sql);
         PreparedStatement stmt = null;
-        try {
+        try 
+        {
             Connection con = DBMS_Connection.get();
             stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery(sql);
