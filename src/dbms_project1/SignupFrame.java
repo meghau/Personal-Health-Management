@@ -7,6 +7,8 @@ package dbms_project1;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +24,8 @@ public class SignupFrame extends javax.swing.JFrame {
      */
     public SignupFrame() {
         initComponents();
-        hsup1_text.setVisible(false);
-        hsup2_text.setVisible(false);
+        hsup1_combo.setVisible(false);
+        hsup2_combo.setVisible(false);
         auth1.setVisible(false);
         auth2.setVisible(false);
         
@@ -60,14 +62,14 @@ public class SignupFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         password_text = new javax.swing.JPasswordField();
         hsup1_lb = new javax.swing.JLabel();
-        hsup1_text = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         hsup2_lb = new javax.swing.JLabel();
         auth1_lb = new javax.swing.JLabel();
         auth1 = new javax.swing.JTextField();
-        hsup2_text = new javax.swing.JTextField();
         auth2_lb = new javax.swing.JLabel();
         auth2 = new javax.swing.JTextField();
+        hsup1_combo = new javax.swing.JComboBox<>();
+        hsup2_combo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,12 +124,6 @@ public class SignupFrame extends javax.swing.JFrame {
 
         hsup1_lb.setText("Health Sup 1");
 
-        hsup1_text.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hsup1_textActionPerformed(evt);
-            }
-        });
-
         hsup2_lb.setText("Health Sup 2");
 
         auth1_lb.setText("Auth Date");
@@ -174,21 +170,21 @@ public class SignupFrame extends javax.swing.JFrame {
                             .addComponent(hsup1_lb)
                             .addComponent(auth1_lb))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(hsup1_text, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                            .addComponent(auth1))
-                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(auth1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hsup1_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(hsup2_lb)
                             .addComponent(auth2_lb))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(hsup2_text, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                            .addComponent(auth2)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(auth2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hsup2_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(166, 166, 166)
                         .addComponent(signup_button)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,16 +225,16 @@ public class SignupFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(hsup1_lb)
-                    .addComponent(hsup1_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(hsup2_lb)
-                    .addComponent(hsup2_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hsup1_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hsup2_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(auth1_lb)
                     .addComponent(auth1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(auth2_lb)
                     .addComponent(auth2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(signup_button)
                 .addGap(15, 15, 15))
         );
@@ -264,9 +260,18 @@ public class SignupFrame extends javax.swing.JFrame {
             stmt.setString(4,(String)gender_combo.getSelectedItem());
             stmt.setString(5,password_text.getText());
            
-            stmt.setString(6, hsup1_text.getText());
+            String hsup1 = (String)hsup1_combo.getSelectedItem();
+            if(!hsup1.equals(""))
+                stmt.setString(6, hsup1);
+            else
+                stmt.setString(6, null);
             stmt.setString(7, auth1.getText());
-            stmt.setString(8, hsup2_text.getText());
+            
+            String hsup2 = (String)hsup2_combo.getSelectedItem();
+            if(!hsup2.equals(""))
+                stmt.setString(8, hsup2);
+            else
+                stmt.setString(8, null);
             stmt.setString(9, auth2.getText());
             
             if(categ.equalsIgnoreCase("patient")){
@@ -297,22 +302,47 @@ public class SignupFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String categ = (String) category_combo.getSelectedItem();
         if(categ.equalsIgnoreCase("patient")){
-            hsup1_text.setVisible(true);
-            hsup2_text.setVisible(true);
-            auth1.setVisible(true);
-            auth2.setVisible(true);
-            
-            hsup1_lb.setVisible(true);
-            hsup2_lb.setVisible(true);
-            auth1_lb.setVisible(true);
-            auth2_lb.setVisible(true);
+            try {
+                Connection con = DBMS_Connection.get();
+                String sql = "Select id from health_supporter";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+                
+                hsup1_combo.removeAllItems();
+                hsup2_combo.removeAllItems();
+                
+                hsup1_combo.addItem("");
+                hsup2_combo.addItem("");
+                while(rs.next()){
+                    hsup1_combo.addItem(rs.getString("id"));
+                    hsup2_combo.addItem(rs.getString("id"));
+                }
+                hsup1_combo.setVisible(true);
+                hsup2_combo.setVisible(true);
+                auth1.setVisible(true);
+                auth2.setVisible(true);
+                
+                hsup1_lb.setVisible(true);
+                hsup2_lb.setVisible(true);
+                auth1_lb.setVisible(true);
+                auth2_lb.setVisible(true);
+                pack();
+            } catch (SQLException ex) {
+                Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (categ.equalsIgnoreCase("health supporter")){
+            hsup1_combo.setVisible(false);
+            hsup2_combo.setVisible(false);
+            auth1.setVisible(false);
+            auth2.setVisible(false);
+
+            hsup1_lb.setVisible(false);
+            hsup2_lb.setVisible(false);
+            auth1_lb.setVisible(false);
+            auth2_lb.setVisible(false);
             pack();
         }
     }//GEN-LAST:event_category_comboFocusLost
-
-    private void hsup1_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hsup1_textActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_hsup1_textActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,10 +388,10 @@ public class SignupFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> category_combo;
     private javax.swing.JTextField dob_text;
     private javax.swing.JComboBox<String> gender_combo;
+    private javax.swing.JComboBox<String> hsup1_combo;
     private javax.swing.JLabel hsup1_lb;
-    private javax.swing.JTextField hsup1_text;
+    private javax.swing.JComboBox<String> hsup2_combo;
     private javax.swing.JLabel hsup2_lb;
-    private javax.swing.JTextField hsup2_text;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

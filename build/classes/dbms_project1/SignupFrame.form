@@ -67,19 +67,19 @@
                           <Component id="auth1_lb" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="hsup1_text" pref="77" max="32767" attributes="0"/>
-                          <Component id="auth1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="auth1" min="-2" pref="77" max="-2" attributes="0"/>
+                          <Component id="hsup1_combo" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="hsup2_lb" min="-2" max="-2" attributes="0"/>
                           <Component id="auth2_lb" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="hsup2_text" pref="78" max="32767" attributes="0"/>
-                          <Component id="auth2" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="auth2" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="hsup2_combo" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -87,7 +87,7 @@
                       <Component id="signup_button" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="38" max="32767" attributes="0"/>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -138,9 +138,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="hsup1_lb" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="hsup1_text" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="hsup2_lb" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="hsup2_text" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="hsup1_combo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="hsup2_combo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -149,7 +149,7 @@
                   <Component id="auth2_lb" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="auth2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Component id="signup_button" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
@@ -256,11 +256,6 @@
         <Property name="text" type="java.lang.String" value="Health Sup 1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="hsup1_text">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hsup1_textActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
     <Component class="javax.swing.JLabel" name="hsup2_lb">
@@ -275,14 +270,32 @@
     </Component>
     <Component class="javax.swing.JTextField" name="auth1">
     </Component>
-    <Component class="javax.swing.JTextField" name="hsup2_text">
-    </Component>
     <Component class="javax.swing.JLabel" name="auth2_lb">
       <Properties>
         <Property name="text" type="java.lang.String" value="Auth Date"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="auth2">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="hsup1_combo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="hsup2_combo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
