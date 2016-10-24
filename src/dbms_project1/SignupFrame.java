@@ -47,6 +47,8 @@ public class SignupFrame extends javax.swing.JFrame {
         signup_button = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         phno_text = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        password_text = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,7 +70,7 @@ public class SignupFrame extends javax.swing.JFrame {
             }
         });
 
-        gender_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not specified", "Male", "Female" }));
+        gender_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
 
         category_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patient", "Health Supporter" }));
 
@@ -87,38 +89,37 @@ public class SignupFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Password");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(signup_button)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(name_text)
-                            .addComponent(dob_text)
-                            .addComponent(address_text)
-                            .addComponent(phno_text)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel4)
-                            .addComponent(signup_button))
+                        .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(59, 59, 59)
-                        .addComponent(gender_combo, 0, 162, Short.MAX_VALUE)))
+                    .addComponent(gender_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(name_text)
+                    .addComponent(dob_text)
+                    .addComponent(address_text)
+                    .addComponent(phno_text)
+                    .addComponent(password_text))
                 .addGap(129, 129, 129))
         );
         layout.setVerticalGroup(
@@ -138,21 +139,24 @@ public class SignupFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(address_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(phno_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(gender_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(30, 30, 30)
-                .addComponent(signup_button)
-                .addGap(17, 17, 17))
+                    .addComponent(jLabel6)
+                    .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(password_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(signup_button))
         );
 
         pack();
@@ -169,14 +173,26 @@ public class SignupFrame extends javax.swing.JFrame {
             dispose();
             String categ = (String) category_combo.getSelectedItem();
             Connection con = DBMS_Connection.get();
-            CallableStatement stmt = con.prepareCall("{call proc_signup_insert('12-Dec-2014','abc','addr','F','password',"+categ+")}");
-//        stmt1.setString(1,jTextNumber.getText());
-            stmt.executeUpdate();
+            CallableStatement stmt = con.prepareCall("{call proc_signup_insert(?,?,?,?,?,?)}");
+            stmt.setString(1,dob_text.getText());
+            stmt.setString(2,name_text.getText());
+            stmt.setString(3,address_text.getText());
+            stmt.setString(4,(String)gender_combo.getSelectedItem());
+            stmt.setString(5,password_text.getText());
+            
+           
 
             if(categ.equalsIgnoreCase("patient")){
-//            String sql = "INSERT INTO Patient VALUES()"
-//            sql = "INSERT INTO Well_Patient VALUES(?,
-}
+                stmt.setString(6, "patient");
+            }else
+                stmt.setString(6, "health supporter");
+            
+            stmt.executeUpdate();
+            
+            dispose();
+            LoginFrame lf = new LoginFrame();
+            lf.setVisible(true);
+            
         } catch (SQLException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -233,7 +249,9 @@ public class SignupFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField name_text;
+    private javax.swing.JPasswordField password_text;
     private javax.swing.JTextField phno_text;
     private javax.swing.JButton signup_button;
     // End of variables declaration//GEN-END:variables

@@ -151,6 +151,22 @@ Value NUMBER(5,2),
 PRIMARY KEY(PID, Indicator, Observation_Date),
 CONSTRAINT fk_pid_record FOREIGN KEY(PID) REFERENCES Patient(id)
 )
-
-
+===
+INSERT INTO Patient VALUES(
+patient_sequence.nextval,
+'15-Aug-2015',
+'Sanoo',
+'1621 Crest Rd',
+'F',
+'password'
+)
+===
+INSERT INTO Patient VALUES(
+patient_sequence.nextval,
+'04-Aug-2015',
+'Xyz',
+'1621 Crest Rd',
+'M',
+'password'
+)
 

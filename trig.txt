@@ -1,0 +1,13 @@
+create or replace procedure proc_signup_insert(dob date,name varchar2,address varchar2,gender varchar2,password varchar2,category varchar2)
+IS
+id number;
+BEGIN
+    id:=patient_sequence.nextval;
+    insert into patient values(id, dob, name, address, gender, password);
+    if category='patient' then
+        insert into well_patient values(id,null,null,null,null);
+    else
+        insert into health_supporter values(id);
+    end if;
+END;
+/

@@ -179,9 +179,9 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setVisible(false);
         if(patient_radio.isSelected()){
             System.out.print(uname_text.getText()+ " "+ pw_text.getText());
-            //sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
-            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
-                + "p.password = '" + pw_text.getText()+ "'";
+            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
+//            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
+//                + "p.password = '" + pw_text.getText()+ "'";
         }else{
             sql = "SELECT p.id FROM Health_Supporter h, Patient p WHERE p.id = '"+uname_text.getText()+"' AND "
                 + "p.password = '" +pw_text.getText()+ "' AND p.id = h.id";

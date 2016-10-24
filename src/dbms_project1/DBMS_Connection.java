@@ -21,8 +21,8 @@ public class DBMS_Connection {
     public static String loginType="";
     public static String DRIVER = "oracle.jdbc.driver.OracleDriver";
     public static String DB_URL ="jdbc:oracle:thin:@ora.csc.ncsu.edu:1521:ORCL";
-    public static String USER_NAME = "pspurani";
-    public static String PASS = "200107643";
+    public static String USER_NAME = "mumesha";
+    public static String PASS = "200107889";
     public static Connection connection = null;
     
     public static Connection get()
@@ -41,8 +41,8 @@ public class DBMS_Connection {
         Connection connection = null;
 	try {
             connection = DriverManager.getConnection(
-		"jdbc:oracle:thin:@orca.csc.ncsu.edu:1521:orcl01", "pspurani",
-		"200107643");
+		"jdbc:oracle:thin:@orca.csc.ncsu.edu:1521:orcl01", USER_NAME,
+		PASS);
 //            connection =DriverManager.getConnection(  
 //            "jdbc:mysql://localhost:3306/health_management","root","root");
 	} catch (SQLException e) {
