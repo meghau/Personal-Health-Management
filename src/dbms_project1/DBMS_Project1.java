@@ -30,7 +30,7 @@ public class DBMS_Project1 {
             File f = new File("sql.txt");
             Scanner sc= new Scanner(f);
             
-            StringBuilder sb = new StringBuilder();
+            /*StringBuilder sb = new StringBuilder();
             String line = "";
             
             while(sc.hasNext()){
@@ -46,15 +46,21 @@ public class DBMS_Project1 {
             for(String s: sqlQueries){
 //                System.out.println(s);
                 stmt = con.prepareStatement(s);
-                stmt.executeQuery(s);
-            }
+//                stmt.executeQuery(s);
+            }*/
+            
+//            PreparedStatement stmt = null;
+//            Connection con = DBMS_Connection.get();
+//            String s ="INSERT INTO Patient VALUES('0','01-Jan-2000','default','default','F','default')";
+//            stmt = con.prepareStatement(s);
+//            stmt.executeQuery(s);
             LoginFrame lf = new LoginFrame();
             lf.setVisible(true);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DBMS_Project1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } /*catch (SQLException ex) {
             Logger.getLogger(DBMS_Project1.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
 }
