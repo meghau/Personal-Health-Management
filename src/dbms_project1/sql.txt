@@ -1,71 +1,56 @@
+BEGIN 
+    EXECUTE IMMEDIATE 'DROP TABLE records'; 
+    EXCEPTION WHEN 
+    OTHERS THEN IF SQLCODE != -942 
+    THEN RAISE; 
+    END IF; 
+END;
 
+===     
 
-DROP TABLE Records;
-DROP TABLE Recommendations;
-DROP TABLE Diagnosis;
-DROP TABLE Disease;
-DROP TABLE Health_Supporter;
-DROP TABLE Well_Patient;
-DROP TABLE Sick_Patient;
-DROP TABLE Patient;
+DROP TABLE Records
+===
+DROP TABLE Recommendations
+===
+DROP TABLE Diagnosis
+===
+DROP TABLE Disease
+===
+DROP TABLE Well_Patient
+===
+DROP TABLE Sick_Patient
+===
+DROP TABLE Health_Supporter
+===
+DROP TABLE Patient
+===
+Create sequence patient_sequence start with 100
+increment by 1
+minvalue 100
+maxvalue 999
 
 CREATE TABLE Patient (id VARCHAR2(10) PRIMARY KEY, dob DATE, name VARCHAR2(30) NOT NULL, address VARCHAR2(50), gender CHAR(1), password VARCHAR2(20), CONSTRAINT check_gender CHECK (gender IN ('M', 'F')));
-
-INSERT INTO Patient VALUES(
-'123',
-'04-Dec-2015',
-'Megha',
-'13b, Type 5',
-'F',
-'password'
-);
-
-INSERT INTO Patient VALUES(
-'111',
-'04-Dec-2015',
-'Prink',
-'13b, Type 5',
-'F',
-'password'
-);
-
-INSERT INTO Patient VALUES(
-'121',
-'04-Dec-2015',
-'Aish',
-'1621 Crest Rd',
-'F',
-'password'
-);
-
+===
 CREATE TABLE Health_Supporter(
 ID VARCHAR(10) PRIMARY KEY,
 CONSTRAINT hsupid_fk FOREIGN KEY(ID) REFERENCES Patient(id)
-);
-
-INSERT INTO Health_Supporter VALUES(
-'111'
-);
-
-INSERT INTO Health_Supporter VALUES(
-'121'
-);
-
+)
+===
 CREATE TABLE Disease(
-Name VARCHAR2(30) PRIMARY KEY,
+Name VARCHAR2(100) PRIMARY KEY,
 Description VARCHAR2(50)
-);
-
+)
+===
 INSERT INTO Disease VALUES(
 'COPD',
 'COPD'
-);
-
+)
+===
 INSERT INTO Disease VALUES(
 'HIV',
 'HIV'
-);
-
+)
+===
 CREATE TABLE Well_Patient (
 ID VARCHAR2(10) PRIMARY KEY,
 PSID VARCHAR2(10),
@@ -75,23 +60,8 @@ S_Auth_Date DATE,
 CONSTRAINT psid_fk FOREIGN KEY(psid) REFERENCES Health_Supporter(ID),
 CONSTRAINT ssid_fk FOREIGN KEY(ssid) REFERENCES Health_Supporter(ID),
 CONSTRAINT pid_fk FOREIGN KEY(ID) REFERENCES Patient(id)
-);
-
-INSERT INTO well_patient VALUES(
-'123',
-'121',
-'12-Jan-2016',
-null,
-null
-);
-INSERT INTO well_patient VALUES(
-'133',
-'121',
-'12-Jan-2016',
-null,
-null
-);
-
+)
+===
 
 CREATE TABLE Sick_Patient (
 ID VARCHAR2(10) PRIMARY KEY,
@@ -102,23 +72,8 @@ S_Auth_Date DATE,
 CONSTRAINT psid_fk1 FOREIGN KEY(psid) REFERENCES Health_Supporter(ID),
 CONSTRAINT ssid_fk1 FOREIGN KEY(ssid) REFERENCES Health_Supporter(ID),
 CONSTRAINT pid_fk1 FOREIGN KEY(ID) REFERENCES Patient(id)
-);
-
-INSERT INTO Sick_Patient VALUES(
-'121',
-'111',
-'13-Jan-2016',
-null,
-null
-);
-
-INSERT INTO Sick_Patient VALUES(
-'123',
-'121',
-'14-Jan-2016',
-null,
-null
-);
+)
+===
 
 CREATE TABLE Diagnosis(
 Patient_ID  VARCHAR2(10) NOT NULL,
@@ -127,8 +82,8 @@ PRIMARY KEY(Patient_ID, Disease_name),
 CONSTRAINT fk_pid FOREIGN KEY(Patient_ID) REFERENCES Patient(id),
 CONSTRAINT fk_dname FOREIGN KEY (Disease_name)
 REFERENCES Disease(Name)
-);
-
+)
+===
 CREATE TABLE Recommendations(
 Disease_name VARCHAR2(30),
 Indicator VARCHAR2(20),
@@ -140,8 +95,8 @@ Info VARCHAR2(20),
 PRIMARY KEY(Disease_name, indicator, patient_id),
 CONSTRAINT fk_pid_recmd FOREIGN KEY(Patient_ID) REFERENCES Patient(id),
 CONSTRAINT fk_dname1 FOREIGN KEY(disease_name) References Disease(Name)
-);
-
+)
+===
 CREATE TABLE Records(
 PID VARCHAR2(10),
 Indicator VARCHAR2(20),
@@ -150,4 +105,8 @@ Recorded_Date TIMESTAMP,
 Value NUMBER(5,2),
 PRIMARY KEY(PID, Indicator, Observation_Date),
 CONSTRAINT fk_pid_record FOREIGN KEY(PID) REFERENCES Patient(id)
-);
+)
+
+
+
+

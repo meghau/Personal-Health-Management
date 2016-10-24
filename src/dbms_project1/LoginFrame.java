@@ -165,8 +165,8 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void signup_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signup_buttonActionPerformed
         
-        //this.setVisible(false);
-        //dispose();
+        this.setVisible(false);
+        dispose();
         SignupFrame sf = new SignupFrame();
         sf.setVisible(true);
         
@@ -178,15 +178,15 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setVisible(false);
         if(patient_radio.isSelected()){
             System.out.print(uname_text.getText()+ " "+ pw_text.getText());
-            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
-            //sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
-            //    + "p.password = '" + pw_text.getText()+ "'";
+            //sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
+            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
+                + "p.password = '" + pw_text.getText()+ "'";
         }else{
             sql = "SELECT p.id FROM Health_Supporter h, Patient p WHERE p.id = '"+uname_text.getText()+"' AND "
                 + "p.password = '" +pw_text.getText()+ "' AND p.id = h.id";
             
         }
-        System.out.println(sql);
+        
         PreparedStatement stmt = null;
         try {
             Connection con = DBMS_Connection.get();
@@ -196,6 +196,7 @@ public class LoginFrame extends javax.swing.JFrame {
             int f= 0;
             if(rs.next()){
                 this.setVisible(false);
+                dispose();
                 if(patient_radio.isSelected()){
                     DBMS_Connection.loginType = "patient";
                     Patient_Menu pm = new Patient_Menu();

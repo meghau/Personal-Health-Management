@@ -5,6 +5,12 @@
  */
 package dbms_project1;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author meghaumesha
@@ -157,8 +163,23 @@ public class SignupFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_name_textActionPerformed
 
     private void signup_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signup_buttonActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
+        try {
+            // TODO add your handling code here:
+            this.setVisible(false);
+            dispose();
+            String categ = (String) category_combo.getSelectedItem();
+            Connection con = DBMS_Connection.get();
+            CallableStatement stmt = con.prepareCall("{call proc_signup_insert('12-Dec-2014','abc','addr','F','password',"+categ+")}");
+//        stmt1.setString(1,jTextNumber.getText());
+            stmt.executeUpdate();
+
+            if(categ.equalsIgnoreCase("patient")){
+//            String sql = "INSERT INTO Patient VALUES()"
+//            sql = "INSERT INTO Well_Patient VALUES(?,
+}
+        } catch (SQLException ex) {
+            Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_signup_buttonActionPerformed
 
     private void phno_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phno_textActionPerformed
