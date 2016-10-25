@@ -109,8 +109,7 @@ public class Profile extends javax.swing.JFrame {
                 Patient_Gender.setText(gender);
                 Patient_Category.setText("");
                 
-                
-                
+                con.close();
             } catch (SQLException ex) {
                 System.out.println("rs.next");
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);

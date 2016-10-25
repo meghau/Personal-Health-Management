@@ -5,6 +5,13 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author aishu
@@ -15,7 +22,36 @@ public class Health_Supporter extends javax.swing.JFrame {
      * Creates new form Health_Supporter
      */
     public Health_Supporter() {
-        initComponents();
+        
+        try {
+            Connection con = DBMS_Connection.get();
+            initComponents();
+            if(DBMS_Connection.patientType.equalsIgnoreCase("well")){
+            String sql1 = "Select count(p.id) from patient p, well_patient w "
+                    +"where (w.psid=p.id or w.ssid=p.id) and w.id='"+DBMS_Connection.loginID+"'";
+            PreparedStatement ps1 = con.prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            rs1.next();
+            int count1 = rs1.getInt(1);
+            System.out.println("count1:"+count1);
+            }
+            String sql2 = "Select count(p.id) from patient p, sick_patient s "
+                    +"where (s.psid=p.id or s.ssid=p.id) and s.id='"+DBMS_Connection.loginID+"'";
+            PreparedStatement ps2 = con.prepareStatement(sql2);
+            ResultSet rs2 = ps2.executeQuery();
+            rs2.next();
+            int count2 = rs2.getInt(1);
+            System.out.println("count2:"+count2);
+            
+//            if(count1<2 || count2<2)
+//                add_hsup_button.setVisible(true);
+//            else
+//                add_hsup_button.setVisible(false);
+            
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }         
     }
 
     /**
@@ -29,169 +65,209 @@ public class Health_Supporter extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        P_ID = new javax.swing.JTextField();
+        s1_name = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        P_Name = new javax.swing.JTextField();
-        P_Contact = new javax.swing.JTextField();
-        P_Auth = new javax.swing.JTextField();
-        Edit_Primary = new javax.swing.JButton();
-        Edit_Secondary = new javax.swing.JButton();
-        S_Name = new javax.swing.JTextField();
-        S_Contact = new javax.swing.JTextField();
-        S_ID = new javax.swing.JTextField();
-        S_Auth = new javax.swing.JTextField();
+        s1_addr = new javax.swing.JTextField();
+        s1_phno = new javax.swing.JTextField();
+        s1_auth = new javax.swing.JTextField();
+        s2_addr = new javax.swing.JTextField();
+        s2_phno = new javax.swing.JTextField();
+        s2_name = new javax.swing.JTextField();
+        s2_auth = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        done_button = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        s1_combo = new javax.swing.JComboBox<>();
+        s1_edit = new javax.swing.JButton();
+        s1_add = new javax.swing.JButton();
+        s1_save = new javax.swing.JButton();
+        s1_delete = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        s2_combo = new javax.swing.JComboBox<>();
+        s2_add = new javax.swing.JButton();
+        s2_edit = new javax.swing.JButton();
+        s2_save = new javax.swing.JButton();
+        s2_delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("PRIMARY");
 
-        jLabel2.setText("Secondary");
+        jLabel2.setText("SECONDARY");
 
-        P_ID.setEditable(false);
-        P_ID.addActionListener(new java.awt.event.ActionListener() {
+        s1_name.setEditable(false);
+        s1_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P_IDActionPerformed(evt);
+                s1_nameActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("UID");
+        jLabel3.setText("Name");
 
-        jLabel4.setText("Name");
+        jLabel4.setText("Ph no");
 
-        jLabel5.setText("Contact Info");
+        jLabel5.setText("Address");
 
-        jLabel6.setText("Authorization");
+        jLabel6.setText("Auth Date");
 
-        P_Name.setEditable(false);
+        s1_addr.setEditable(false);
 
-        P_Contact.setEditable(false);
-        P_Contact.addActionListener(new java.awt.event.ActionListener() {
+        s1_phno.setEditable(false);
+        s1_phno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P_ContactActionPerformed(evt);
+                s1_phnoActionPerformed(evt);
             }
         });
 
-        P_Auth.setEditable(false);
-        P_Auth.addActionListener(new java.awt.event.ActionListener() {
+        s1_auth.setEditable(false);
+        s1_auth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                P_AuthActionPerformed(evt);
+                s1_authActionPerformed(evt);
             }
         });
 
-        Edit_Primary.setText("Edit");
-        Edit_Primary.addActionListener(new java.awt.event.ActionListener() {
+        s2_addr.setEditable(false);
+
+        s2_phno.setEditable(false);
+        s2_phno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Edit_PrimaryActionPerformed(evt);
+                s2_phnoActionPerformed(evt);
             }
         });
 
-        Edit_Secondary.setText("Edit");
-        Edit_Secondary.addActionListener(new java.awt.event.ActionListener() {
+        s2_name.setEditable(false);
+
+        s2_auth.setEditable(false);
+        s2_auth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Edit_SecondaryActionPerformed(evt);
+                s2_authActionPerformed(evt);
             }
         });
 
-        S_Name.setEditable(false);
+        jLabel7.setText("Name");
 
-        S_Contact.setEditable(false);
-        S_Contact.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setText("Ph no");
+
+        jLabel9.setText("Address");
+
+        jLabel10.setText("Auth Date");
+
+        done_button.setText("Done!");
+        done_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                S_ContactActionPerformed(evt);
+                done_buttonActionPerformed(evt);
             }
         });
 
-        S_ID.setEditable(false);
+        s1_edit.setText("Edit");
 
-        S_Auth.setEditable(false);
-        S_Auth.addActionListener(new java.awt.event.ActionListener() {
+        s1_add.setText("Add");
+        s1_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                S_AuthActionPerformed(evt);
+                s1_addActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("UID");
+        s1_save.setText("Save");
 
-        jLabel8.setText("Name");
+        s1_delete.setText("Delete");
 
-        jLabel9.setText("Contact Info");
+        jLabel11.setText("ID");
 
-        jLabel10.setText("Authorization");
+        jLabel12.setText("ID");
 
-        jButton1.setText("Done!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        s2_add.setText("Add");
+
+        s2_edit.setText("Edit");
+
+        s2_save.setText("Save");
+
+        s2_delete.setText("Delete");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator2)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Edit_Secondary))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
+                                .addComponent(s1_addr, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(S_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(S_Name)))
-                    .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(s1_name, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(s1_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Edit_Primary))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(P_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(P_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(s1_phno, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(s1_auth, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(s1_delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s1_save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s1_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s1_add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel8)
-                                .addGap(37, 37, 37))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel12))
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(s2_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(s2_name, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(44, 44, 44)
+                                        .addComponent(jLabel8))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(s2_addr, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(44, 44, 44)
+                                        .addComponent(jLabel10))))
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(S_Contact, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(S_Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(P_Contact)
-                            .addComponent(P_Auth, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(67, 67, 67))
+                            .addComponent(s2_auth, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(s2_phno, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(s2_delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s2_save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s2_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(s2_add, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addComponent(jButton1)
+                .addGap(215, 215, 215)
+                .addComponent(done_button)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -199,101 +275,113 @@ public class Health_Supporter extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Edit_Primary))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(P_Contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(P_Auth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(P_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(P_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5)))
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jLabel11))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(19, 19, 19)
-                                        .addComponent(jLabel6)))))))
-                .addGap(80, 80, 80)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Edit_Secondary)
-                        .addGap(72, 72, 72))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8)
-                                .addComponent(S_Contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(S_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
+                                        .addGap(28, 28, 28)
+                                        .addComponent(s1_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(S_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10)
-                                    .addComponent(S_Auth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(81, 81, 81)))
-                .addComponent(jButton1)
-                .addContainerGap(42, Short.MAX_VALUE))
+                                    .addComponent(jLabel3)
+                                    .addComponent(s1_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(s1_phno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(s1_addr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(s1_auth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(s1_add)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(s1_edit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(s1_save)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(s1_delete))))
+                    .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(s2_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(s2_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(s2_phno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(s2_addr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(s2_auth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(s2_add)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(s2_edit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(s2_save)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(s2_delete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(done_button)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void P_ContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P_ContactActionPerformed
+    private void s1_phnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1_phnoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_P_ContactActionPerformed
+    }//GEN-LAST:event_s1_phnoActionPerformed
 
-    private void P_AuthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P_AuthActionPerformed
+    private void s1_authActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1_authActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_P_AuthActionPerformed
+    }//GEN-LAST:event_s1_authActionPerformed
 
-    private void S_ContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_S_ContactActionPerformed
+    private void s2_phnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s2_phnoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_S_ContactActionPerformed
+    }//GEN-LAST:event_s2_phnoActionPerformed
 
-    private void S_AuthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_S_AuthActionPerformed
+    private void s2_authActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s2_authActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_S_AuthActionPerformed
+    }//GEN-LAST:event_s2_authActionPerformed
 
-    private void Edit_PrimaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_PrimaryActionPerformed
-        P_Auth.setEditable(true);
-        P_Contact.setEditable(true);
-        P_ID.setEditable(true);
-        P_Name.setEditable(true);
-    }//GEN-LAST:event_Edit_PrimaryActionPerformed
-
-    private void Edit_SecondaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_SecondaryActionPerformed
-        S_Auth.setEditable(true);
-        S_Contact.setEditable(true);
-        S_ID.setEditable(true);
-        S_Name.setEditable(true);
-    }//GEN-LAST:event_Edit_SecondaryActionPerformed
-
-    private void P_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_P_IDActionPerformed
+    private void s1_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1_nameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_P_IDActionPerformed
+    }//GEN-LAST:event_s1_nameActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void done_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_done_buttonActionPerformed
         this.setVisible(false);
         Patient_Menu menu = new Patient_Menu();
         menu.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_done_buttonActionPerformed
+
+    private void s1_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1_addActionPerformed
+        // TODO add your handling code here:
+        Connection con = DBMS_Connection.get();
+        PreparedStatement ps = null;
+        String sql = "INSERT into ";
+    }//GEN-LAST:event_s1_addActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,19 +419,11 @@ public class Health_Supporter extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Edit_Primary;
-    private javax.swing.JButton Edit_Secondary;
-    private javax.swing.JTextField P_Auth;
-    private javax.swing.JTextField P_Contact;
-    private javax.swing.JTextField P_ID;
-    private javax.swing.JTextField P_Name;
-    private javax.swing.JTextField S_Auth;
-    private javax.swing.JTextField S_Contact;
-    private javax.swing.JTextField S_ID;
-    private javax.swing.JTextField S_Name;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton done_button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -352,5 +432,25 @@ public class Health_Supporter extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton s1_add;
+    private javax.swing.JTextField s1_addr;
+    private javax.swing.JTextField s1_auth;
+    private javax.swing.JComboBox<String> s1_combo;
+    private javax.swing.JButton s1_delete;
+    private javax.swing.JButton s1_edit;
+    private javax.swing.JTextField s1_name;
+    private javax.swing.JTextField s1_phno;
+    private javax.swing.JButton s1_save;
+    private javax.swing.JButton s2_add;
+    private javax.swing.JTextField s2_addr;
+    private javax.swing.JTextField s2_auth;
+    private javax.swing.JComboBox<String> s2_combo;
+    private javax.swing.JButton s2_delete;
+    private javax.swing.JButton s2_edit;
+    private javax.swing.JTextField s2_name;
+    private javax.swing.JTextField s2_phno;
+    private javax.swing.JButton s2_save;
     // End of variables declaration//GEN-END:variables
 }

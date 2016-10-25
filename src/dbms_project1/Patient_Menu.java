@@ -136,7 +136,7 @@ public class Patient_Menu extends javax.swing.JFrame {
         try {
             Connection con = DBMS_Connection.get();
             System.out.println((con==null));
-            PreparedStatement ps = con.prepareStatement("select * from mumesha.Patient;");
+            PreparedStatement ps = con.prepareStatement("select * from Patient;");
         } catch (SQLException ex) {
             Logger.getLogger(Patient_Menu.class.getName()).log(Level.SEVERE, null, ex);
         }

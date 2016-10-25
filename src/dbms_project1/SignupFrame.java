@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -253,37 +254,55 @@ public class SignupFrame extends javax.swing.JFrame {
             dispose();
             String categ = (String) category_combo.getSelectedItem();
             Connection con = DBMS_Connection.get();
-            CallableStatement stmt = con.prepareCall("{call proc_signup_insert(?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement stmt = con.prepareCall("{ call proc_signup_insert(?,?,?,?,?,?,?,?,?,?,?)}");
+            stmt.registerOutParameter(11, Types.VARCHAR);
+            
             stmt.setString(1,dob_text.getText());
             stmt.setString(2,name_text.getText());
             stmt.setString(3,address_text.getText());
             stmt.setString(4,(String)gender_combo.getSelectedItem());
             stmt.setString(5,password_text.getText());
            
-            String hsup1 = (String)hsup1_combo.getSelectedItem();
-            if(!hsup1.equals(""))
-                stmt.setString(6, hsup1);
-            else
-                stmt.setString(6, null);
-            stmt.setString(7, auth1.getText());
-            
-            String hsup2 = (String)hsup2_combo.getSelectedItem();
-            if(!hsup2.equals(""))
-                stmt.setString(8, hsup2);
-            else
-                stmt.setString(8, null);
-            stmt.setString(9, auth2.getText());
-            
             if(categ.equalsIgnoreCase("patient")){
                 stmt.setString(10, "patient");
-            }else
+                String hsup1 = (String)hsup1_combo.getSelectedItem();
+                if(!hsup1.equals(""))
+                    stmt.setString(6, hsup1);
+                else
+                    stmt.setString(6, null);
+                stmt.setString(7, auth1.getText());
+
+                String hsup2 = (String)hsup2_combo.getSelectedItem();
+                if(!hsup2.equals(""))
+                    stmt.setString(8, hsup2);
+                else
+                    stmt.setString(8, null);
+                stmt.setString(9, auth2.getText());
+            }else{
+                stmt.setString(6, null);
+                stmt.setString(7, null);
+                stmt.setString(8, null);
+                stmt.setString(9, null);
                 stmt.setString(10, "health supporter");
+            }
             
-            stmt.executeUpdate();
-            
+            stmt.execute();
+            String generatedId = stmt.getString(11);
             dispose();
-            LoginFrame lf = new LoginFrame();
-            lf.setVisible(true);
+            DBMS_Connection.loginID = generatedId;
+            System.out.print(generatedId);
+//            LoginFrame lf = new LoginFrame();
+//            lf.setVisible(true);
+
+            if(categ.equalsIgnoreCase("patient")){
+                DBMS_Connection.patientType = "well";
+                Patient_Menu pm = new Patient_Menu();
+                pm.setVisible(true);
+            }else{
+                HealthSupMainFrame hsmf = new HealthSupMainFrame();
+                hsmf.setVisible(true);
+            }
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

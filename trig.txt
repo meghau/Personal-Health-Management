@@ -1,11 +1,11 @@
 set serveroutput on;
-create or replace procedure proc_signup_insert(dob date,name varchar2,address varchar2,gender varchar2,password varchar2,hsup1 varchar2, auth1 varchar2, hsup2 varchar2, auth2 varchar2, category varchar2)
+create or replace procedure proc_signup_insert(dob date,name varchar2,address varchar2,gender varchar2,password varchar2,hsup1 varchar2, auth1 varchar2, hsup2 varchar2, auth2 varchar2, category varchar2, new_id out varchar2)
 IS
 id number;
 BEGIN
     id:=patient_sequence.nextval;
     dbms_output.put_line('id:'||id);
-    insert into patient values(id, dob, name, address, gender, password);
+    insert into patient values(id, dob, name, address, gender, password) returning id into new_id;
     dbms_output.put_line('inserted in patient');
     if category='patient' then
         insert into well_patient values(id,hsup1,auth1,hsup2,auth2);
@@ -23,5 +23,6 @@ id number;
 BEGIN
     id:=patient_sequence.nextval;
     dbms_output.put_line('id:'||id);
+    return id;
 END;
 /

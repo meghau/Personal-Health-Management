@@ -200,6 +200,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 dispose();
                 if(patient_radio.isSelected()){
                     DBMS_Connection.loginType = "patient";
+                    DBMS_Connection.patientType = "well";
                     Patient_Menu pm = new Patient_Menu();
                     pm.setVisible(true);
                 } else{
@@ -215,6 +216,7 @@ public class LoginFrame extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(this, "Incorrect id/password combination. Try again.");
             }
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

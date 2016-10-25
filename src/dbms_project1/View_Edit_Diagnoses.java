@@ -35,6 +35,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             }
             System.out.println(s);
             Current_Diag.setText(s);
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -157,7 +158,9 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(this,"Diasease exists!");
             }
-    System.out.println(DBMS_Connection.loginID);            
+    System.out.println(DBMS_Connection.loginID);  
+            DBMS_Connection.patientType = "sick";
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
         }
