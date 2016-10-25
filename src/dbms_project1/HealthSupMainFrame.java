@@ -5,17 +5,27 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author meghaumesha
  */
 public class HealthSupMainFrame extends javax.swing.JFrame {
-
+    static String id;
     /**
      * Creates new form HealthSupMainFrame
      */
     public HealthSupMainFrame() {
         initComponents();
+        jList1.setVisible(false);
+        id="";
     }
 
     /**
@@ -32,14 +42,10 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         access_patient_button = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setText("Patients");
@@ -58,45 +64,70 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Whom do I support?");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(access_patient_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(300, 343, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(153, 153, 153))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(access_patient_button)
+                .addGap(77, 77, 77))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(access_patient_button))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addComponent(jButton1)
-                .addGap(38, 38, 38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(access_patient_button)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+     public static void setPid(String id)
+    {
+        HealthSupMainFrame.id = id;
+    }
+    
+    public static String getPid()
+    {
+        return id;
+    }
+    
     private void access_patient_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_access_patient_buttonActionPerformed
         this.setVisible(false);
-        Profile pr = new Profile();
-        pr.setVisible(true);
+        String id = jList1.getSelectedValue();
+        setPid(id);
+        HSupPatientInfoFrame pinfo = new HSupPatientInfoFrame();
+        pinfo.setVisible(true);
     }//GEN-LAST:event_access_patient_buttonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -104,6 +135,86 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         Profile pr = new Profile();
         pr.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Connection con = DBMS_Connection.get();
+        String id = DBMS_Connection.loginID;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+            String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id ";
+           //String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id UNION select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id" ;
+           System.out.println("hi1");
+            try {
+                pstmt = con.prepareStatement(query);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi3");
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi2");
+            String name="",pid="";
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+        //    DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
+            
+            try {
+                jList1.setModel(listModel);
+                if(rs.next())
+                {
+                    name = rs.getString(1);
+                    pid = rs.getString(2);
+                    System.out.println(name+" "+pid);
+                    String str = name+" "+pid;
+        //            model.addElement(str);
+                    listModel.addElement(str);
+                }
+               // jList1.setVisible(true);
+               // add(jList1);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String query1 = "select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id ";
+           //String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id UNION select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id" ;
+           System.out.println("hi1");
+            try {
+                pstmt = con.prepareStatement(query1);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi3");
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi2");
+        //    DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
+            
+            try {
+                if(rs.next())
+                {
+                    name = rs.getString(1);
+                    pid = rs.getString(2);
+                    System.out.println(name+" "+pid);
+                    String str = name+" "+pid;
+        //            model.addElement(str);
+                    listModel.addElement(str);
+                }
+                jList1.setVisible(true);
+               // add(jList1);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,6 +254,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton access_patient_button;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;

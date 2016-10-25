@@ -140,7 +140,6 @@ public class Patient_Menu extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Patient_Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }//GEN-LAST:event_DiagnosesActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
