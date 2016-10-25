@@ -132,15 +132,6 @@ public class Patient_Menu extends javax.swing.JFrame {
         this.setVisible(false);
         View_Edit_Diagnoses ved = new View_Edit_Diagnoses();
         ved.setVisible(true);
-        
-        try {
-            Connection con = DBMS_Connection.get();
-            System.out.println((con==null));
-            PreparedStatement ps = con.prepareStatement("select * from mumesha.Patient;");
-        } catch (SQLException ex) {
-            Logger.getLogger(Patient_Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
     }//GEN-LAST:event_DiagnosesActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed

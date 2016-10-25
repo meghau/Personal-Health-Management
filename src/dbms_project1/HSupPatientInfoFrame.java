@@ -107,6 +107,7 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String id = HealthSupMainFrame.getPid();
         String[] idstr = id.split(" ");
+        System.out.println("here");
         System.out.println(idstr[1]);
         Profile pr = new Profile(idstr[1]);
         pr.setVisible(true);

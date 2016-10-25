@@ -422,8 +422,17 @@ public class Profile extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
-        Patient_Menu menu = new Patient_Menu();
-        menu.setVisible(true);
+        String type = DBMS_Connection.loginType;
+        if(type.equals("patient"))
+        {
+            Patient_Menu menu = new Patient_Menu();
+            menu.setVisible(true);
+        }
+        else
+        {
+            HSupPatientInfoFrame menu = new HSupPatientInfoFrame();
+            menu.setVisible(true);
+        }
         Connection con = DBMS_Connection.get();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
