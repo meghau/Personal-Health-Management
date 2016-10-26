@@ -25,6 +25,9 @@ public class SignupFrame extends javax.swing.JFrame {
      */
     public SignupFrame() {
         initComponents();
+        
+        phno_text.setVisible(false);
+        
         hsup1_combo.setVisible(false);
         hsup2_combo.setVisible(false);
         auth1.setVisible(false);
@@ -248,12 +251,13 @@ public class SignupFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_name_textActionPerformed
 
     private void signup_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signup_buttonActionPerformed
+        Connection con = null;
         try {
             // TODO add your handling code here:
             this.setVisible(false);
             dispose();
             String categ = (String) category_combo.getSelectedItem();
-            Connection con = DBMS_Connection.get();
+            con = DBMS_Connection.get();
             CallableStatement stmt = con.prepareCall("{ call proc_signup_insert(?,?,?,?,?,?,?,?,?,?,?)}");
             stmt.registerOutParameter(11, Types.VARCHAR);
             
@@ -305,6 +309,12 @@ public class SignupFrame extends javax.swing.JFrame {
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_signup_buttonActionPerformed
 

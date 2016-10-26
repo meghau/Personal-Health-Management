@@ -22,10 +22,9 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         try {
             initComponents();
             String s=" ";
-            patient_id=121;
             Connection con=DBMS_Connection.get();
             //Statement stmt=con.createStatement();
-            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID="+patient_id;
+            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID='"+DBMS_Connection.loginID+"'";
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             
@@ -56,6 +55,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         disease = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         Add_diag = new javax.swing.JButton();
+        back_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +82,13 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             }
         });
 
+        back_button.setText("Back");
+        back_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                back_buttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,9 +105,11 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                         .addComponent(disease, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Add_diag)))
-                .addGap(85, 85, 85))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(back_button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100))
         );
@@ -108,7 +117,9 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(back_button))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,7 +141,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             boolean flag=false;
            // DBMS_Connection.
             Connection con=DBMS_Connection.get();
-            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID="+patient_id;
+            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID='"+DBMS_Connection.loginID+"'";
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             
@@ -143,22 +154,39 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
               }
             }
             if(flag==false){
-            String query="insert into diagnosis values(121,?)"; 
-            PreparedStatement ps=con.prepareStatement(query);
-            
-            ps.setString(1,diseases);
-            
-            ps.executeQuery();
-          /* while (rs.next()) {
-		    String s = rs.getString("ID");
-		    String n = rs.getString("NAME");
-		    System.out.println(s + "   " + n);
-		}*/}
+                String query="insert into diagnosis values(?,?)"; 
+                PreparedStatement ps=con.prepareStatement(query);
+                ps.setString(1,DBMS_Connection.loginID);
+                ps.setString(2,diseases);
+
+                ps.executeQuery();
+                
+                // insert into sick patient, if not present
+                query="select * from well_patient where id='"+DBMS_Connection.loginID+"'"; 
+                ps=con.prepareStatement(query);
+                ResultSet rs1 = ps.executeQuery();
+                if(rs1.next()){
+                    System.out.println("inserting into sick_patient");
+                    query="insert into sick_patient values(?,?,?,?,?)";
+                    ps=con.prepareStatement(query);
+                    ps.setString(1, rs1.getString(1));
+                    ps.setString(2, rs1.getString(2));
+                    ps.setString(3, rs1.getString(3));
+                    ps.setString(4, rs1.getString(4));
+                    ps.setString(5, rs1.getString(5));
+                    
+                    ps.execute();
+                    
+                    // delete from well patient
+                    query="delete from well_patient where id='"+DBMS_Connection.loginID+"'"; 
+                    ps=con.prepareStatement(query);
+                    ps.execute();
+                }
+            }
             else
             {
                 JOptionPane.showMessageDialog(this,"Diasease exists!");
-            }
-    System.out.println(DBMS_Connection.loginID);  
+            }  
             DBMS_Connection.patientType = "sick";
             con.close();
         } catch (SQLException ex) {
@@ -169,6 +197,10 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
     private void diseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diseaseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_diseaseActionPerformed
+
+    private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
+        new Patient_Menu().setVisible(true);
+    }//GEN-LAST:event_back_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,6 +239,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Add_diag;
     private javax.swing.JTextArea Current_Diag;
+    private javax.swing.JButton back_button;
     private javax.swing.JComboBox disease;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

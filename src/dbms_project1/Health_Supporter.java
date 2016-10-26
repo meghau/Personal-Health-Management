@@ -11,49 +11,168 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author aishu
  */
 public class Health_Supporter extends javax.swing.JFrame {
-
+    String table = "";
+    boolean isEdited1=false, isEdited2=false;
     /**
      * Creates new form Health_Supporter
      */
     public Health_Supporter() {
         
         try {
-            Connection con = DBMS_Connection.get();
+            
             initComponents();
-            if(DBMS_Connection.patientType.equalsIgnoreCase("well")){
-            String sql1 = "Select count(p.id) from patient p, well_patient w "
-                    +"where (w.psid=p.id or w.ssid=p.id) and w.id='"+DBMS_Connection.loginID+"'";
+            myInitComponents();
+            // no phone number for now 
+            s1_phno.setVisible(false);
+            s2_phno.setVisible(false);
+            jLabel4.setVisible(false);
+            jLabel8.setVisible(false);
+            
+            Connection con = DBMS_Connection.get();
+            
+            if(DBMS_Connection.patientType.equalsIgnoreCase("well"))
+                table="well_patient";
+            else
+                table="sick_patient";
+            
+            
+            String sql1 = "Select w.psid from patient p, "+ table+" w "
+                    +"where w.psid=p.id and w.id='"+DBMS_Connection.loginID+"'";
             PreparedStatement ps1 = con.prepareStatement(sql1);
             ResultSet rs1 = ps1.executeQuery();
-            rs1.next();
-            int count1 = rs1.getInt(1);
-            System.out.println("count1:"+count1);
-            }
-            String sql2 = "Select count(p.id) from patient p, sick_patient s "
-                    +"where (s.psid=p.id or s.ssid=p.id) and s.id='"+DBMS_Connection.loginID+"'";
+            
+            String sql2 = "Select w.ssid from patient p, "+ table+" w "
+                    +"where w.ssid=p.id and w.id='"+DBMS_Connection.loginID+"'";
             PreparedStatement ps2 = con.prepareStatement(sql2);
             ResultSet rs2 = ps2.executeQuery();
-            rs2.next();
-            int count2 = rs2.getInt(1);
-            System.out.println("count2:"+count2);
             
-//            if(count1<2 || count2<2)
-//                add_hsup_button.setVisible(true);
-//            else
-//                add_hsup_button.setVisible(false);
+            s1_name.setEditable(true);
+            s1_addr.setEditable(true);
+            s1_auth.setEditable(true);
+            
+            s2_name.setEditable(true);
+            s2_addr.setEditable(true);
+            s2_auth.setEditable(true);
+            if(rs1.next()){
+                s1_add.setVisible(false);
+                s1_combo.setVisible(false);
+                
+                s1_name.setEditable(false);
+                s1_addr.setEditable(false);
+//                s1_phno.setEditable(false);
+                s1_auth.setEditable(false);
+                
+                sql1 = "select name,address,TO_CHAR(p_auth_date, 'DD-MON-YY') from patient p, "+table+" w where p.id=w.psid and w.id='"+DBMS_Connection.loginID+"'";
+                ps1 = con.prepareStatement(sql1);
+                rs1 = ps1.executeQuery();
+                if(rs1.next()){
+                    s1_name.setText(rs1.getString(1));
+                    s1_addr.setText(rs1.getString(2));
+                    s1_auth.setText(rs1.getString(3));
+                }
+            }else
+                s1_delete.setVisible(false);
+            
+            if(rs2.next()){
+                s2_add.setVisible(false);
+                s2_combo.setVisible(false);
+                
+                s2_name.setEditable(false);
+                s2_addr.setEditable(false);
+                s2_auth.setEditable(false);
+                
+                sql2 = "select name,address,TO_CHAR(s_auth_date, 'DD-MON-YY') from patient p, "+table+" w where p.id=w.ssid and w.id='"+DBMS_Connection.loginID+"'";
+                ps2 = con.prepareStatement(sql2);
+                rs2 = ps2.executeQuery();
+                if(rs2.next()){
+                    s2_name.setText(rs2.getString(1));
+                    s2_addr.setText(rs2.getString(2));
+                    s2_auth.setText(rs2.getString(3));
+                }
+            }else
+                s2_delete.setVisible(false);
+            
+            //populate combo box
+            sql1="Select id from health_supporter";
+            ps1 = con.prepareStatement(sql1);
+            rs1 = ps1.executeQuery(sql1);
+                
+            s1_combo.removeAllItems();
+            s2_combo.removeAllItems();
+                
+            while(rs1.next()){
+                s1_combo.addItem(rs1.getString("id"));
+                s2_combo.addItem(rs1.getString("id"));
+            }
             
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }         
     }
-
+    
+    public void myInitComponents() {
+        s1_combo.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    s1_comboFocusLost(evt);
+                }
+            });
+            
+        s2_combo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                s2_comboFocusLost(evt);
+            }
+        });
+        
+        s2_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s2_addActionPerformed(evt);
+            }
+        });
+        
+        s1_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1_editActionPerformed(evt);
+            }
+        });
+        
+        s2_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s2_editActionPerformed(evt);
+            }
+        });
+        
+        s1_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1_saveActionPerformed(evt);
+            }
+        });
+        
+        s2_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s2_saveActionPerformed(evt);
+            }
+        });
+        
+        s1_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s1_deleteActionPerformed(evt);
+            }
+        });
+        
+//        s2_delete.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                s2_deleteActionPerformed(evt);
+//            }
+//        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -370,19 +489,195 @@ public class Health_Supporter extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_s1_nameActionPerformed
 
+    private void s1_comboFocusLost(java.awt.event.FocusEvent evt) {
+        
+        try {
+            String sql1 = "select name,address from patient p where p.id='"+s1_combo.getSelectedItem()+"'";
+            PreparedStatement  ps1 = DBMS_Connection.get().prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            if(rs1.next()){
+                s1_name.setText(rs1.getString(1));
+                s1_addr.setText(rs1.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void s2_comboFocusLost(java.awt.event.FocusEvent evt) {
+        try {
+            String sql1 = "select name,address from patient p where p.id='"+s2_combo.getSelectedItem()+"'";
+            PreparedStatement  ps1 = DBMS_Connection.get().prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            if(rs1.next()){
+                s2_name.setText(rs1.getString(1));
+                s2_addr.setText(rs1.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void done_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_done_buttonActionPerformed
         this.setVisible(false);
+        dispose();
         Patient_Menu menu = new Patient_Menu();
         menu.setVisible(true);
     }//GEN-LAST:event_done_buttonActionPerformed
 
     private void s1_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s1_addActionPerformed
-        // TODO add your handling code here:
-        Connection con = DBMS_Connection.get();
-        PreparedStatement ps = null;
-        String sql = "INSERT into ";
+        try {
+            s1_name.setEditable(false);
+            s1_addr.setEditable(false);
+            s1_auth.setEditable(false);
+            System.out.println("inserting s1");
+            Connection con = DBMS_Connection.get();
+            String sql = "update "+table+" set psid='"+(String)s1_combo.getSelectedItem()+"',p_auth_date='"+s1_auth.getText()+"' where id='"+DBMS_Connection.loginID+"'";
+            System.out.println(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            con.close();
+            s1_combo.setVisible(false);
+            isEdited1=false;
+            s1_delete.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_s1_addActionPerformed
 
+    private void s2_addActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        try {
+            s2_name.setEditable(false);
+            s2_addr.setEditable(false);
+            s2_auth.setEditable(false);
+            System.out.println("inserting s2");
+            Connection con = DBMS_Connection.get();
+            String sql = "update "+table+" set ssid='"+(String)s2_combo.getSelectedItem()+"',s_auth_date='"+s2_auth.getText()+"' where id='"+DBMS_Connection.loginID+"'";
+            System.out.println(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            con.close();
+            s2_combo.setVisible(false);
+            isEdited2=false;
+            s2_delete.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void s1_editActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        s1_name.setEditable(true);
+        s1_addr.setEditable(true);
+        s1_auth.setEditable(true);
+        s1_combo.setVisible(true);
+        isEdited1=true;
+    }  
+    
+    private void s2_editActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        s2_name.setEditable(true);
+        s2_addr.setEditable(true);
+        s2_auth.setEditable(true);
+        s2_combo.setVisible(true);
+        isEdited2=true;
+    }  
+    
+    private void s1_saveActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        try {
+            s1_combo.setVisible(false);
+            s1_name.setEditable(false);
+            s1_addr.setEditable(false);
+            s1_auth.setEditable(false);
+            if(isEdited1){
+                System.out.println("saving s1");
+                Connection con = DBMS_Connection.get();
+                con.setAutoCommit(false);
+                String sql = "update "+table+" set psid='"+(String)s1_combo.getSelectedItem()+"',p_auth_date='"+s1_auth.getText()+"' where id='"+DBMS_Connection.loginID+"'";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.executeUpdate();
+
+                sql = "update patient set name='"+s1_name.getText()+"',address='"+s1_addr.getText()+"' where id='"+(String)s1_combo.getSelectedItem()+"'";
+                ps = con.prepareStatement(sql);
+                ps.executeUpdate();
+                con.setAutoCommit(true);
+                con.close();
+            }
+            isEdited1=false;
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
+    
+    private void s2_saveActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        try {
+            s2_combo.setVisible(false);
+            s2_name.setEditable(false);
+            s2_addr.setEditable(false);
+            s2_auth.setEditable(false);
+            if(isEdited2){
+                System.out.println("saving s2");
+                Connection con = DBMS_Connection.get();
+                con.setAutoCommit(false);
+                String sql = "update "+table+" set ssid='"+(String)s2_combo.getSelectedItem()+"',s_auth_date='"+s2_auth.getText()+"' where id='"+DBMS_Connection.loginID+"'";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.executeUpdate();
+
+                sql = "update patient set name='"+s2_name.getText()+"',address='"+s2_addr.getText()+"' where id='"+(String)s2_combo.getSelectedItem()+"'";
+                ps = con.prepareStatement(sql);
+                ps.executeUpdate();
+                con.setAutoCommit(true);
+                con.close();
+            }
+            isEdited2=false;
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
+    
+    private void s1_deleteActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            Connection con = DBMS_Connection.get();
+//            if(DBMS_Connection.patientType.equalsIgnoreCase("sick")){
+                System.out.println(DBMS_Connection.patientType);
+                String sql = "Select w.ssid,name,address,TO_CHAR(s_auth_date, 'DD-MON-YY') from "+ table+" w, patient p"
+                        +" where p.id=w.ssid and w.id='"+DBMS_Connection.loginID+"'";
+//                
+                PreparedStatement ps2 = con.prepareStatement(sql);
+                ResultSet rs2 = ps2.executeQuery();
+                if(rs2.next()){
+                    System.out.println(rs2.getString(4));
+                    System.out.println(table);
+//                    con.setAutoCommit(false);
+                    sql="update "+table+" set psid='"+rs2.getString(1)+"',p_auth_date='"+rs2.getString(4)+"',ssid=null,s_auth_date=null where id='"+DBMS_Connection.loginID+"'";
+                    ps2 = con.prepareStatement(sql);
+//                    ps2.setString(1, rs2.getString(1));
+//                    ps2.setString(2,rs2.getString(4));
+                    System.out.println(sql);
+                    int f = ps2.executeUpdate();
+                    if(f!=1)
+                        System.out.println("f value not 1");
+                    else
+                        System.out.println("f value is 1");
+//                    con.setAutoCommit(true);
+                    
+                    con.commit();
+                }else if(DBMS_Connection.patientType.equalsIgnoreCase("well")){
+                    sql="update "+table+" set psid=null,p_auth_date=null,ssid=null,s_auth_date=null where id='"+DBMS_Connection.loginID+"'";
+                    ps2 = con.prepareStatement(sql);
+                    ps2.executeUpdate();
+                } else {
+                    JOptionPane.showMessageDialog(this, "You are sick. Cannot delete Health Supporter!");
+                }
+            /*}else{
+                System.out.println("delete for well patient");
+                String sql="update "+table+" set psid=null, p_auth_date=null where id='"+DBMS_Connection.loginID+"'";
+                PreparedStatement ps2 = con.prepareStatement(sql);
+                ps2.executeUpdate();
+            }*/
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

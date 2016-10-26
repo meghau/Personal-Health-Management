@@ -175,13 +175,15 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void login_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_buttonActionPerformed
         
-        String sql;
+        String sql, sql1=new String();
         this.setVisible(false);
         if(patient_radio.isSelected()){
             System.out.print(uname_text.getText()+ " "+ pw_text.getText());
-            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
-//            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
-//                + "p.password = '" + pw_text.getText()+ "'";
+//            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
+            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
+                + "p.password = '" + pw_text.getText()+ "'";
+            sql1 = "SELECT p.id FROM Patient p, Sick_patient s WHERE p.id = s.id AND p.id = '"+ uname_text.getText()+"' AND "
+                + "p.password = '" + pw_text.getText()+ "'";
         }else{
             sql = "SELECT p.id FROM Health_Supporter h, Patient p WHERE p.id = '"+uname_text.getText()+"' AND "
                 + "p.password = '" +pw_text.getText()+ "' AND p.id = h.id";
@@ -200,7 +202,13 @@ public class LoginFrame extends javax.swing.JFrame {
                 dispose();
                 if(patient_radio.isSelected()){
                     DBMS_Connection.loginType = "patient";
-                    DBMS_Connection.patientType = "well";
+                    
+                    stmt = con.prepareStatement(sql1);
+                    ResultSet rs1 = stmt.executeQuery(sql1);
+                    if(rs1.next())
+                        DBMS_Connection.patientType = "sick";
+                    else
+                        DBMS_Connection.patientType = "well";
                     Patient_Menu pm = new Patient_Menu();
                     pm.setVisible(true);
                 } else{
@@ -215,6 +223,7 @@ public class LoginFrame extends javax.swing.JFrame {
             else
             {
                 JOptionPane.showMessageDialog(this, "Incorrect id/password combination. Try again.");
+                new LoginFrame().setVisible(true);
             }
             con.close();
         } catch (SQLException ex) {
