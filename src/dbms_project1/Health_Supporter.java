@@ -167,6 +167,12 @@ public class Health_Supporter extends javax.swing.JFrame {
             }
         });
         
+        s2_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                s2_deleteActionPerformed(evt);
+            }
+        });
+        
 //        s2_delete.addActionListener(new java.awt.event.ActionListener() {
 //            public void actionPerformed(java.awt.event.ActionEvent evt) {
 //                s2_deleteActionPerformed(evt);
@@ -678,6 +684,20 @@ public class Health_Supporter extends javax.swing.JFrame {
         }
     }
     
+    
+    private void s2_deleteActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            Connection con = DBMS_Connection.get();
+            PreparedStatement ps = null;
+            System.out.println(DBMS_Connection.patientType);
+            String sql="update "+table+" set ssid=null,s_auth_date=null where id='"+DBMS_Connection.loginID+"'";
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */

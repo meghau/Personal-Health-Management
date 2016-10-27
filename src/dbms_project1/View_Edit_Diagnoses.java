@@ -24,15 +24,17 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             String s=" ";
             Connection con=DBMS_Connection.get();
             //Statement stmt=con.createStatement();
+            System.out.println(DBMS_Connection.loginID);
             String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID='"+DBMS_Connection.loginID+"'";
+            System.out.println(query1);
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             
             while(rs.next())
             {
-              s=rs.getString("DISEASE_NAME");
+              s+=rs.getString("DISEASE_NAME")+"\n";
             }
-            System.out.println(s);
+            System.out.println("dis:"+s);
             Current_Diag.setText(s);
             con.close();
         } catch (SQLException ex) {
@@ -154,40 +156,50 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
               }
             }
             if(flag==false){
-                String query="insert into diagnosis values(?,?)"; 
+                String query="select psid from well_patient where id='"+DBMS_Connection.loginID+"'"; 
                 PreparedStatement ps=con.prepareStatement(query);
-                ps.setString(1,DBMS_Connection.loginID);
-                ps.setString(2,diseases);
-
-                ps.executeQuery();
-                
-                // insert into sick patient, if not present
-                query="select * from well_patient where id='"+DBMS_Connection.loginID+"'"; 
-                ps=con.prepareStatement(query);
                 ResultSet rs1 = ps.executeQuery();
-                if(rs1.next()){
-                    System.out.println("inserting into sick_patient");
-                    query="insert into sick_patient values(?,?,?,?,?)";
+                rs1.next();
+                if(rs1.getString(1) != null){
+
+                    query="insert into diagnosis values(?,?)"; 
                     ps=con.prepareStatement(query);
-                    ps.setString(1, rs1.getString(1));
-                    ps.setString(2, rs1.getString(2));
-                    ps.setString(3, rs1.getString(3));
-                    ps.setString(4, rs1.getString(4));
-                    ps.setString(5, rs1.getString(5));
-                    
-                    ps.execute();
-                    
-                    // delete from well patient
-                    query="delete from well_patient where id='"+DBMS_Connection.loginID+"'"; 
+                    ps.setString(1,DBMS_Connection.loginID);
+                    ps.setString(2,diseases);
+
+                    ps.executeQuery();
+
+                    // insert into sick patient, if not present
+                    query="select id,psid,TO_CHAR(p_auth_date, 'DD-MON-YY'),ssid,TO_CHAR(s_auth_date, 'DD-MON-YY') from well_patient where id='"+DBMS_Connection.loginID+"'"; 
                     ps=con.prepareStatement(query);
-                    ps.execute();
-                }
+                    rs1 = ps.executeQuery();
+                    if(rs1.next()){
+                        System.out.println("inserting into sick_patient");
+                        query="insert into sick_patient values(?,?,?,?,?)";
+                        ps=con.prepareStatement(query);
+                        System.out.println(rs1.getString(1)+"\n"+rs1.getString(2)+"\n"+rs1.getString(3)+"\n"+rs1.getString(4)+"\n"+rs1.getString(5));
+                        ps.setString(1, rs1.getString(1));
+                        ps.setString(2, rs1.getString(2));
+                        ps.setString(3, rs1.getString(3));
+                        ps.setString(4, rs1.getString(4));
+                        ps.setString(5, rs1.getString(5));
+
+                        ps.execute();
+
+                        // delete from well patient
+                        query="delete from well_patient where id='"+DBMS_Connection.loginID+"'"; 
+                        ps=con.prepareStatement(query);
+                        ps.execute();
+                        DBMS_Connection.patientType = "sick";
+                    }
+                } else
+                    JOptionPane.showMessageDialog(this, "Action not allowed. Add a health supporter first!");
             }
             else
             {
                 JOptionPane.showMessageDialog(this,"Diasease exists!");
             }  
-            DBMS_Connection.patientType = "sick";
+            
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
@@ -199,6 +211,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
     }//GEN-LAST:event_diseaseActionPerformed
 
     private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
+        dispose();
         new Patient_Menu().setVisible(true);
     }//GEN-LAST:event_back_buttonActionPerformed
 
