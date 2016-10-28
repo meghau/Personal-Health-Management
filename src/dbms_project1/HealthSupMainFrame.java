@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -123,11 +124,90 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
     }
     
     private void access_patient_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_access_patient_buttonActionPerformed
-        this.setVisible(false);
-        String id = jList1.getSelectedValue();
-        setPid(id);
-        HSupPatientInfoFrame pinfo = new HSupPatientInfoFrame();
-        pinfo.setVisible(true);
+        
+        String nameid = jList1.getSelectedValue();
+        String[] id = nameid.split(" ");
+        Connection con = DBMS_Connection.get();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        setPid(id[1]);
+        String hsid = DBMS_Connection.loginID;
+        System.out.println(id[1]);
+        String query1 = "select count(*) from well_patient wp where wp.id = '"+id[1]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
+           System.out.println("hi1");
+            try {
+                pstmt = con.prepareStatement(query1);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi3");
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi2");
+            String num="";
+            int countwell = 0;
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+        //    DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
+            
+            try {
+                if(rs.next())
+                {
+                  num = rs.getString(1);  
+                }
+                countwell = Integer.parseInt(num);
+                System.out.println("countwell="+countwell);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String query2 = "select count(*) from sick_patient wp where wp.id = '"+id[1]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
+           System.out.println("hi1");
+            try {
+                pstmt = con.prepareStatement(query2);
+            } catch (SQLException ex) {
+                System.out.println("pstmt error");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi3");
+            try {
+                rs = pstmt.executeQuery();
+            } catch (SQLException ex) {
+                System.out.println("executequery");
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("hi2");
+            num="";
+            int countsick = 0;
+           // DefaultListModel<String> listModel = new DefaultListModel<>();
+        //    DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
+            
+            try {
+                if(rs.next())
+                {
+                  num = rs.getString(1);  
+                }
+                countsick = Integer.parseInt(num);
+                System.out.println("countsick="+countsick);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           int sum = countwell+countsick;
+           System.out.println("sum="+sum);
+        if(sum>0)
+        {
+            this.setVisible(false);
+            HSupPatientInfoFrame pinfo = new HSupPatientInfoFrame();
+            pinfo.setVisible(true);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are still not authorized to support this patient!", "Alert", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_access_patient_buttonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -141,8 +221,8 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         String id = DBMS_Connection.loginID;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
-            String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id ";
+       // System.out.println("my id is : "+id);
+            String query = "(select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id) UNION (select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id) ";
            //String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id UNION select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id" ;
            System.out.println("hi1");
             try {
@@ -165,42 +245,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             
             try {
                 jList1.setModel(listModel);
-                if(rs.next())
-                {
-                    name = rs.getString(1);
-                    pid = rs.getString(2);
-                    System.out.println(name+" "+pid);
-                    String str = name+" "+pid;
-        //            model.addElement(str);
-                    listModel.addElement(str);
-                }
-               // jList1.setVisible(true);
-               // add(jList1);
-            } catch (SQLException ex) {
-                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            String query1 = "select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id ";
-           //String query = "select p.name, p.id from well_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id UNION select p.name, p.id from sick_patient wp, health_supporter hs, patient p where (hs.id=wp.psid or hs.id=wp.ssid) and (hs.id='"+id+"') and p.id=wp.id" ;
-           System.out.println("hi1");
-            try {
-                pstmt = con.prepareStatement(query1);
-            } catch (SQLException ex) {
-                System.out.println("pstmt error");
-                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("hi3");
-            try {
-                rs = pstmt.executeQuery();
-            } catch (SQLException ex) {
-                System.out.println("executequery");
-                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("hi2");
-        //    DefaultComboBoxModel model = (DefaultComboBoxModel) combo.getModel();
-            
-            try {
-                if(rs.next())
+                while(rs.next())
                 {
                     name = rs.getString(1);
                     pid = rs.getString(2);
@@ -214,6 +259,8 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+           
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
