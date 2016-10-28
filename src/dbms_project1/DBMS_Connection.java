@@ -17,6 +17,7 @@ import java.sql.SQLException;
  */
 public class DBMS_Connection {
     public static String loginID="";
+    public static String indicator="";  ////ask prinks
     public static String loginpassword="";
     public static String loginType="";
     public static String patientType="";
