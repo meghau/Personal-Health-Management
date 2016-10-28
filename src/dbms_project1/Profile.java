@@ -29,11 +29,12 @@ public class Profile extends javax.swing.JFrame {
         initComponents();
         Connection con = DBMS_Connection.get();
         String id = DBMS_Connection.loginID;
-        String type = "";
+        String type = DBMS_Connection.loginType;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         if(type.equals("patient"))
         {
+            System.out.println("patient ? date when null=");
             String query = "select * from patient p where p.id = '"+id+"'";
             try {
                 pstmt = con.prepareStatement(query);
@@ -53,13 +54,16 @@ public class Profile extends javax.swing.JFrame {
             
             Date date=null;
             
-                
+              System.out.println("date when null="+date);  
                 
             try {
                 if(rs.next())
                 {
+                    System.out.println("date when null="+date);
                     pid = rs.getString(1);
+                    System.out.println("date when null="+date);
                     date = rs.getDate(2);
+                    System.out.println("date when not null="+date);
                     name = rs.getString(3);
                     addr = rs.getString(4);
                     gender = rs.getString(5);
@@ -443,7 +447,7 @@ public class Profile extends javax.swing.JFrame {
         int num = Integer.parseInt(arrdate[1]);
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        if (num >= 0 && num <= 11 ) {
+        if (num >= 1 && num <= 12 ) {
             month = months[num-1];
         }
         String d = arrdate[0]+"-"+month+"-"+arrdate[2];      
