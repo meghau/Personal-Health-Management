@@ -161,7 +161,7 @@ public class add_spec_rec extends javax.swing.JFrame {
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        All_Indicators ai=new All_Indicators();
+        All_Indicators_spec ai=new All_Indicators_spec();
         ai.setVisible(true);
     }//GEN-LAST:event_BackActionPerformed
 
@@ -173,7 +173,7 @@ public class add_spec_rec extends javax.swing.JFrame {
             int l=Integer.parseInt(lower.getText());
             int u=Integer.parseInt(upper.getText());
             int inf=Integer.parseInt(info.getText());
-            String patient_id=DBMS_Connection.loginID;
+            String patient_id=HealthSupMainFrame.getPid();
             String disease=Specific_Disease.disease;
             String indicator=DBMS_Connection.indicator;
             String query="select count(*) from recommendations where Patient_ID='"+patient_id+"'"+"AND Disease_name='"+disease+"'"+"AND Indicator='"+indicator+"'" ; 

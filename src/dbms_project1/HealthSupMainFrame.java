@@ -131,6 +131,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         String nameid = jList1.getSelectedValue();
         String[] id = nameid.split(" ");
         Connection con = DBMS_Connection.get();
+        
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         setPid(id[1]);
