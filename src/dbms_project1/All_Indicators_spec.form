@@ -26,8 +26,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="Oxy_Sat" max="32767" attributes="0"/>
-                  <Component id="Blood_Pressure_sys" max="32767" attributes="0"/>
+                  <Component id="Oxy_Sat" alignment="1" max="32767" attributes="0"/>
+                  <Component id="Blood_Pressure_sys" alignment="1" max="32767" attributes="0"/>
                   <Component id="Weight" alignment="1" max="32767" attributes="0"/>
                   <Component id="Pain" alignment="1" max="32767" attributes="0"/>
                   <Component id="Mood" alignment="1" max="32767" attributes="0"/>
@@ -77,6 +77,14 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_Pressure_sysActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JButton" name="Blood_Pressure_dia">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Blood Pressure Diastolic"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_Pressure_diaActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JButton" name="Oxy_Sat">
       <Properties>
         <Property name="text" type="java.lang.String" value="Oxygen Saturation"/>
@@ -107,14 +115,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TempActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="Blood_Pressure_dia">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Blood Pressure Diastolic"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_Pressure_diaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

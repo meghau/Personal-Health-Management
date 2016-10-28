@@ -27,13 +27,14 @@
               <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="Oxy_Sat" max="32767" attributes="0"/>
-                  <Component id="Blood_Pressure" max="32767" attributes="0"/>
+                  <Component id="Blood_Pressure_sys" max="32767" attributes="0"/>
                   <Component id="Weight" alignment="1" max="32767" attributes="0"/>
                   <Component id="Pain" alignment="1" max="32767" attributes="0"/>
                   <Component id="Mood" alignment="1" max="32767" attributes="0"/>
                   <Component id="Temp" alignment="1" max="32767" attributes="0"/>
+                  <Component id="Blood_Pressure_dia" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="156" max="32767" attributes="0"/>
+              <EmptySpace pref="134" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -42,17 +43,19 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="Weight" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="Blood_Pressure" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="Blood_Pressure_sys" min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Component id="Blood_Pressure_dia" min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="Oxy_Sat" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="Pain" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="Mood" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="Temp" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="106" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,12 +69,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="WeightActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="Blood_Pressure">
+    <Component class="javax.swing.JButton" name="Blood_Pressure_sys">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Blood Pressure"/>
+        <Property name="text" type="java.lang.String" value="Blood Pressure Systolic"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_PressureActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_Pressure_sysActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Oxy_Sat">
@@ -104,6 +107,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TempActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="Blood_Pressure_dia">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Blood Pressure Diastolic"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Blood_Pressure_diaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

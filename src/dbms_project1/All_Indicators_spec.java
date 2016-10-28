@@ -8,12 +8,12 @@ package dbms_project1;
  *
  * @author abc
  */
-public class All_Indicators extends javax.swing.JFrame {
-  
+public class All_Indicators_spec extends javax.swing.JFrame {
+
     /**
-     * Creates new form All_Indicators
+     * Creates new form All_Indicators_spec
      */
-    public All_Indicators() {
+    public All_Indicators_spec() {
         initComponents();
     }
 
@@ -28,11 +28,11 @@ public class All_Indicators extends javax.swing.JFrame {
 
         Weight = new javax.swing.JButton();
         Blood_Pressure_sys = new javax.swing.JButton();
+        Blood_Pressure_dia = new javax.swing.JButton();
         Oxy_Sat = new javax.swing.JButton();
         Pain = new javax.swing.JButton();
         Mood = new javax.swing.JButton();
         Temp = new javax.swing.JButton();
-        Blood_Pressure_dia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +47,13 @@ public class All_Indicators extends javax.swing.JFrame {
         Blood_Pressure_sys.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Blood_Pressure_sysActionPerformed(evt);
+            }
+        });
+
+        Blood_Pressure_dia.setText("Blood Pressure Diastolic");
+        Blood_Pressure_dia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Blood_Pressure_diaActionPerformed(evt);
             }
         });
 
@@ -75,13 +82,6 @@ public class All_Indicators extends javax.swing.JFrame {
         Temp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TempActionPerformed(evt);
-            }
-        });
-
-        Blood_Pressure_dia.setText("Blood Pressure Diastolic");
-        Blood_Pressure_dia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Blood_Pressure_diaActionPerformed(evt);
             }
         });
 
@@ -128,59 +128,59 @@ public class All_Indicators extends javax.swing.JFrame {
         DBMS_Connection.indicator="Weight";
         System.out.println(DBMS_Connection.indicator);
         this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
     }//GEN-LAST:event_WeightActionPerformed
 
     private void Blood_Pressure_sysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Blood_Pressure_sysActionPerformed
         DBMS_Connection.indicator="BP_Sys";
         this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
     }//GEN-LAST:event_Blood_Pressure_sysActionPerformed
-
-    private void Oxy_SatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Oxy_SatActionPerformed
-        DBMS_Connection.indicator="Oxygen Saturation";
-        this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-   
-    }//GEN-LAST:event_Oxy_SatActionPerformed
-
-    private void PainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PainActionPerformed
-        DBMS_Connection.indicator="Pain";
-        this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
-    }//GEN-LAST:event_PainActionPerformed
-
-    private void MoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoodActionPerformed
-        DBMS_Connection.indicator="Mood";
-        this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
-    }//GEN-LAST:event_MoodActionPerformed
-
-    private void TempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempActionPerformed
-        DBMS_Connection.indicator="Temperature";
-        this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
-    }//GEN-LAST:event_TempActionPerformed
 
     private void Blood_Pressure_diaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Blood_Pressure_diaActionPerformed
         // TODO add your handling code here:
         DBMS_Connection.indicator="BP_dys";
         this.setVisible(false);
-        Indicator_Details id =new Indicator_Details();
-        id.setVisible(true);
-        
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
     }//GEN-LAST:event_Blood_Pressure_diaActionPerformed
+
+    private void Oxy_SatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Oxy_SatActionPerformed
+        DBMS_Connection.indicator="Oxygen Saturation";
+        this.setVisible(false);
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
+    }//GEN-LAST:event_Oxy_SatActionPerformed
+
+    private void PainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PainActionPerformed
+        DBMS_Connection.indicator="Pain";
+        this.setVisible(false);
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
+    }//GEN-LAST:event_PainActionPerformed
+
+    private void MoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoodActionPerformed
+        DBMS_Connection.indicator="Mood";
+        this.setVisible(false);
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
+    }//GEN-LAST:event_MoodActionPerformed
+
+    private void TempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempActionPerformed
+        DBMS_Connection.indicator="Temperature";
+        this.setVisible(false);
+        add_spec_rec asr =new add_spec_rec();
+        asr.setVisible(true);
+
+    }//GEN-LAST:event_TempActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,20 +199,20 @@ public class All_Indicators extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(All_Indicators.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(All_Indicators_spec.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(All_Indicators.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(All_Indicators_spec.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(All_Indicators.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(All_Indicators_spec.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(All_Indicators.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(All_Indicators_spec.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new All_Indicators().setVisible(true);
+                new All_Indicators_spec().setVisible(true);
             }
         });
     }
