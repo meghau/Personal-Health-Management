@@ -16,6 +16,7 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
      */
     public HSupPatientInfoFrame() {
         initComponents();
+        System.out.println("helooooo");
     }
 
     /**
