@@ -47,6 +47,11 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
         });
 
         records_button.setText("Records");
+        records_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                records_buttonActionPerformed(evt);
+            }
+        });
 
         alerts_button.setText("Alerts");
 
@@ -116,7 +121,10 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void diagnosis_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosis_buttonActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:alse
+        this.setVisible(false);
+        View_Diagnoses_Health_supp vd=new View_Diagnoses_Health_supp();
+        vd.setVisible(true);
     }//GEN-LAST:event_diagnosis_buttonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -136,9 +144,17 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
 
     private void add_spec_recActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_spec_recActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
         Specific_Disease sd=new Specific_Disease();
         sd.setVisible(true);
     }//GEN-LAST:event_add_spec_recActionPerformed
+
+    private void records_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_records_buttonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        View_records sd=new View_records();
+        sd.setVisible(true);
+    }//GEN-LAST:event_records_buttonActionPerformed
 
     /**
      * @param args the command line arguments

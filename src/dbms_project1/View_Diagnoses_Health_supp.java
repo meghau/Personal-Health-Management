@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author abc
  */
 public class View_Diagnoses_Health_supp extends javax.swing.JFrame {
-    String patient_id=DBMS_Connection.loginID;
+    String patient_id=HealthSupMainFrame.getPid();
     /**
      * Creates new form View_Edit_Diagnoses
      */
