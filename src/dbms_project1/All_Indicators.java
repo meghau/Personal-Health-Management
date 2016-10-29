@@ -33,6 +33,7 @@ public class All_Indicators extends javax.swing.JFrame {
         Mood = new javax.swing.JButton();
         Temp = new javax.swing.JButton();
         Blood_Pressure_dia = new javax.swing.JButton();
+        main_menu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +86,13 @@ public class All_Indicators extends javax.swing.JFrame {
             }
         });
 
+        main_menu.setText("MAIN MENU");
+        main_menu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                main_menuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,7 +106,8 @@ public class All_Indicators extends javax.swing.JFrame {
                     .addComponent(Pain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Mood, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Temp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Blood_Pressure_dia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Blood_Pressure_dia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(main_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -118,7 +127,9 @@ public class All_Indicators extends javax.swing.JFrame {
                 .addComponent(Mood)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Temp)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(main_menu)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,6 +193,13 @@ public class All_Indicators extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Blood_Pressure_diaActionPerformed
 
+    private void main_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_main_menuActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Patient_Menu pm=new Patient_Menu();
+        pm.setVisible(true);
+    }//GEN-LAST:event_main_menuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -224,5 +242,6 @@ public class All_Indicators extends javax.swing.JFrame {
     private javax.swing.JButton Pain;
     private javax.swing.JButton Temp;
     private javax.swing.JButton Weight;
+    private javax.swing.JButton main_menu;
     // End of variables declaration//GEN-END:variables
 }

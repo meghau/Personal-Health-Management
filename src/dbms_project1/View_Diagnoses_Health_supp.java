@@ -21,7 +21,7 @@ public class View_Diagnoses_Health_supp extends javax.swing.JFrame {
     public View_Diagnoses_Health_supp() {
         try {
             initComponents();
-            String s=" ";
+            String s="";
             
             Connection con=DBMS_Connection.get();
             //Statement stmt=con.createStatement();

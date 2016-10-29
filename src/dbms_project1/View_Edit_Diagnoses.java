@@ -21,7 +21,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
     public View_Edit_Diagnoses() {
         try {
             initComponents();
-            String s=" ";
+            String s="";
             Connection con=DBMS_Connection.get();
             //Statement stmt=con.createStatement();
             System.out.println(DBMS_Connection.loginID);
@@ -168,7 +168,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                     ps.setString(2,diseases);
 
                     ps.executeQuery();
-
+                //    JOptionPane.showMessageDialog(this,"Added");
                     // insert into sick patient, if not present
                     query="select id,psid,TO_CHAR(p_auth_date, 'DD-MON-YY'),ssid,TO_CHAR(s_auth_date, 'DD-MON-YY') from well_patient where id='"+DBMS_Connection.loginID+"'"; 
                     ps=con.prepareStatement(query);

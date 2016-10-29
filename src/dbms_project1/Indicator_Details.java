@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -298,10 +299,15 @@ String indicator=DBMS_Connection.indicator;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        System.out.println(Integer.parseInt(freq.getText()));
+        if(Integer.parseInt(freq.getText())!=0)
+        {
         this.setVisible(false);
         Add_Measurement_of_Indicator amoi =new Add_Measurement_of_Indicator();
         amoi.setVisible(true);
-        
+        }
+        else
+            JOptionPane.showMessageDialog(this,"No measurement required for this indicator");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void freqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_freqActionPerformed
