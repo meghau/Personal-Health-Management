@@ -5,13 +5,13 @@ id number;
 BEGIN
     id:=patient_sequence.nextval;
     dbms_output.put_line('id:'||id);
-    insert into patient values(id, dob, name, address, gender, password) returning id into new_id;
+    insert into patient values('P'||TO_CHAR(id), dob, name, address, gender, password) returning id into new_id;
     dbms_output.put_line('inserted in patient');
     if category='patient' then
-        insert into well_patient values(id,hsup1,auth1,hsup2,auth2);
+        insert into well_patient values('P'||TO_CHAR(id),hsup1,auth1,hsup2,auth2);
         dbms_output.put_line('inserted in well_patient');
     else
-        insert into health_supporter values(id);
+        insert into health_supporter values('P'||TO_CHAR(id));
         dbms_output.put_line('inserted in health sup');
     end if;
 END;
@@ -24,5 +24,84 @@ BEGIN
     id:=patient_sequence.nextval;
     dbms_output.put_line('id:'||id);
     return id;
+END;
+/
+
+create or replace procedure low_activity_alert(id varchar2)
+IS
+ind varchar2(50);
+freq number;
+count_records number;
+c_freq SYS_REFCURSOR;
+count_alerts number;
+BEGIN
+    OPEN c_freq FOR
+    select indicator,max(frequency) from recommendations r where r.patient_id IN (001,id) and r.disease_name in (Select disease_name from diagnosis where patient_id=id) and r.indicator in (select r1.indicator from recommendations r1 where r1.disease_name= r.disease_name and r1.patient_id = r.patient_id and r1.frequency<>0) group by indicator;
+    
+    LOOP
+        BEGIN
+        FETCH c_freq into ind, freq;
+            EXIT WHEN c_freq % NOTFOUND;
+        
+        select count(*)+1 into count_records from records where TRUNC(sysdate) - TRUNC(recorded_date) BETWEEN 0 and 7 and pid=id and indicator=ind;
+        IF count_records < freq THEN
+            INSERT INTO alerts VALUES(id,ind,'LOW FREQ');
+        ELSE
+            select count(*) into count_alerts from alerts where patient_id=id and indicator=ind and alert_type='LOW FREQ';
+            IF count_alerts > 0 THEN
+                DELETE FROM alerts where patient_id=id and indicator=ind and alert_type='LOW FREQ';
+            END IF;
+        END IF;    
+        EXCEPTION
+            WHEN dup_val_on_index 
+            THEN
+                NULL;
+            WHEN no_data_found 
+            THEN
+                INSERT INTO alerts VALUES(id,ind,'LOW FREQ');
+        END;       
+    END LOOP;
+    CLOSE c_freq;
+END;
+/
+
+CREATE OR REPLACE TRIGGER low_activity_trig
+    BEFORE INSERT ON records
+    FOR EACH ROW
+BEGIN
+   low_activity_alert(:NEW.pid);
+END;
+/
+
+CREATE OR REPLACE TRIGGER outside_limit_trig
+    AFTER INSERT OR UPDATE ON records
+    FOR EACH ROW
+DECLARE
+    low number(3);
+    high number(3);
+    info number(2);
+BEGIN
+    IF :NEW.indicator = 'Pain' OR :NEW.indicator = 'Mood' THEN
+        select max(info) INTO info from recommendations r where r.patient_id IN (001,:NEW.pid) and r.disease_name in (Select disease_name from diagnosis where patient_id=:NEW.pid) and r.indicator = :NEW.indicator;
+        IF :NEW.value > info THEN
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT');
+        ELSE
+            DELETE FROM alerts where patient_id= :NEW.pid AND indicator=:NEW.indicator AND alert_type ='ABOVE LIMIT';
+        END IF;     
+    ELSE
+        select max(lower),max(upper) INTO low, high from recommendations r where r.patient_id IN (001,:NEW.pid) and r.disease_name in (Select disease_name from diagnosis where patient_id=:NEW.pid) and r.indicator = :NEW.indicator;
+        IF :NEW.value < low THEN
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'BELOW LIMIT');
+        ELSIF :NEW.value > high THEN
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT');
+        ELSE
+            DELETE FROM alerts where patient_id= :NEW.pid AND indicator=:NEW.indicator AND alert_type IN ('BELOW LIMIT', 'ABOVE LIMIT');
+        END IF;
+    END IF;
+    
+    EXCEPTION
+        WHEN dup_val_on_index 
+        THEN
+            NULL;
 END;
 /

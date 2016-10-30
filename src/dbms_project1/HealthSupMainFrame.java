@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,6 +44,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         access_patient_button = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        delAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,13 +73,25 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             }
         });
 
+        delAccountButton.setText("Delete Account");
+        delAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delAccountButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(delAccountButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(access_patient_button)
+                        .addGap(77, 77, 77))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(300, 343, Short.MAX_VALUE))
@@ -88,10 +102,6 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(153, 153, 153))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(access_patient_button)
-                .addGap(77, 77, 77))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,7 +115,9 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(access_patient_button)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(access_patient_button)
+                    .addComponent(delAccountButton))
                 .addGap(22, 22, 22))
         );
 
@@ -216,6 +228,38 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void delAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAccountButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection con = DBMS_Connection.get();
+//            if(DBMS_Connection.patientType.equalsIgnoreCase("sick")){
+                
+                String sql1 = "Select id from sick_patient s, well_patient w, patient p"
+                        +" where ((p.id=s.psid) OR (p.id=w.psid)) and p.id='"+DBMS_Connection.loginID+"'";
+                
+                String sql2 = "Select id from sick_patient s, well_patient w, patient p"
+                        +" where ((p.id=s.ssid) OR (p.id=w.ssid)) and p.id='"+DBMS_Connection.loginID+"'";
+//                
+                PreparedStatement ps = con.prepareStatement(sql1);
+                ResultSet rs1 = ps.executeQuery();
+                
+                ps = con.prepareStatement(sql2);
+                ResultSet rs2 = ps.executeQuery();
+                if(rs1.next() || rs2.next()){
+                  JOptionPane.showMessageDialog(this, "You are supporting a patient! Cannot delete your account!");
+                } else {
+                    sql1 = "Delete from health_supporter where id ='"+DBMS_Connection.loginID+"'";
+                    ps = con.prepareStatement(sql1);
+                    ps.execute();
+                    con.commit();
+                    dispose();
+                    new LoginFrame().setVisible(true);
+                } 
+        } catch (SQLException ex) {
+            Logger.getLogger(HealthSupMainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_delAccountButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -253,6 +297,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton access_patient_button;
+    private javax.swing.JButton delAccountButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

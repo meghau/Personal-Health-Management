@@ -16,6 +16,7 @@ import java.sql.SQLException;
  * @author aishu
  */
 public class DBMS_Connection {
+    public static String indicator="";
     public static String loginID="";
     public static String loginpassword="";
     public static String loginType="";

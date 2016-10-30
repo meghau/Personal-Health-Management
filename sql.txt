@@ -72,7 +72,7 @@ END;
 ===
 drop sequence patient_sequence
 ===
-Create sequence patient_sequence start with 100 increment by 1 minvalue 100 maxvalue 999
+Create sequence patient_sequence start with 1 increment by 1 minvalue 1 maxvalue 999
 ===
 CREATE TABLE Patient (id VARCHAR2(10) PRIMARY KEY, dob DATE, name VARCHAR2(30) NOT NULL, address VARCHAR2(50), gender CHAR(1), password VARCHAR2(20), CONSTRAINT check_gender CHECK (gender IN ('M', 'F')))
 ===
