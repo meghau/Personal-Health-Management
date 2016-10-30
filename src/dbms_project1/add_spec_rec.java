@@ -6,6 +6,7 @@ package dbms_project1;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,7 +161,7 @@ public class add_spec_rec extends javax.swing.JFrame {
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        All_Indicators ai=new All_Indicators();
+        All_Indicators_spec ai=new All_Indicators_spec();
         ai.setVisible(true);
     }//GEN-LAST:event_BackActionPerformed
 
@@ -168,16 +169,42 @@ public class add_spec_rec extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Connection con=DBMS_Connection.get();
-            String freq=frequency.getText();
+            int freq=Integer.parseInt(frequency.getText());
             int l=Integer.parseInt(lower.getText());
             int u=Integer.parseInt(upper.getText());
-            String patient_id=DBMS_Connection.loginID;
+            int inf=Integer.parseInt(info.getText());
+            String patient_id=HealthSupMainFrame.getPid();
             String disease=Specific_Disease.disease;
             String indicator=DBMS_Connection.indicator;
             String query="select count(*) from recommendations where Patient_ID='"+patient_id+"'"+"AND Disease_name='"+disease+"'"+"AND Indicator='"+indicator+"'" ; 
             System.out.println(query);
             PreparedStatement ps=con.prepareStatement(query);
-            ps.setString(1,patient_id);
+            
+            ResultSet rs=ps.executeQuery();
+            if(rs.next()){
+                System.out.println(rs.getInt(1));
+                if(rs.getInt(1)!=0)
+                {
+                    String query1="update recommendations set upper="+u+",lower="+l+",frequency="+freq+",info="+inf+" where Patient_ID='"+patient_id+"'"+"AND Disease_name='"+disease+"'"+"AND Indicator='"+indicator+"'" ; 
+                    System.out.println(query1);
+                    PreparedStatement ps1=con.prepareStatement(query1);
+                    ps1.executeUpdate();
+                }
+                else
+                {
+                    String query2="Insert into recommendations values('"+disease+"','"+indicator+"','"+patient_id+"','"+l+"','"+u+"','"+freq+"','"+inf+"' )"; 
+                    PreparedStatement ps2=con.prepareStatement(query2);
+                    System.out.println(query2);
+                  /*  ps2.setString(1,disease );
+                    ps2.setString(2,indicator );
+                    ps2.setString(3,patient_id);
+                    ps2.setInt(4,l);
+                    ps2.setInt(5,u );
+                    ps2.setInt(6,freq);
+                    ps2.setInt(7,inf);*/
+                    ps2.execute();
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(add_spec_rec.class.getName()).log(Level.SEVERE, null, ex);
         }
