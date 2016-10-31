@@ -11,18 +11,17 @@ BEGIN
         insert into health_supporter values(id);
         dbms_output.put_line('inserted in health sup');
     end if;
+    EXCEPTION
+        WHEN dup_val_on_index 
+        THEN
+            if category='patient' then
+                insert into well_patient values(id,hsup1,auth1,hsup2,auth2);
+            else
+                insert into health_supporter values(id);
+            
 END;
 /
 
-create or replace procedure get_id
-AS
-id number;
-BEGIN
-    id:=patient_sequence.nextval;
-    dbms_output.put_line('id:'||id);
-    return id;
-END;
-/
 
 create or replace procedure low_activity_alert(id varchar2)
 IS
@@ -42,7 +41,7 @@ BEGIN
         
         select count(*)+1 into count_records from records where TRUNC(sysdate) - TRUNC(recorded_date) BETWEEN 0 and 7 and pid=id and indicator=ind;
         IF count_records < freq THEN
-            INSERT INTO alerts VALUES(id,ind,'LOW FREQ');
+            INSERT INTO alerts VALUES(id,ind,'LOW FREQ',SYSDATE);
         ELSE
             select count(*) into count_alerts from alerts where patient_id=id and indicator=ind and alert_type='LOW FREQ';
             IF count_alerts > 0 THEN
@@ -55,7 +54,7 @@ BEGIN
                 NULL;
             WHEN no_data_found 
             THEN
-                INSERT INTO alerts VALUES(id,ind,'LOW FREQ');
+                INSERT INTO alerts VALUES(id,ind,'LOW FREQ',SYSDATE);
         END;       
     END LOOP;
     CLOSE c_freq;
@@ -81,16 +80,16 @@ BEGIN
     IF :NEW.indicator = 'Pain' OR :NEW.indicator = 'Mood' THEN
         select max(info) INTO info from recommendations r where r.patient_id IN (001,:NEW.pid) and r.disease_name in (Select disease_name from diagnosis where patient_id=:NEW.pid) and r.indicator = :NEW.indicator;
         IF :NEW.value > info THEN
-            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT');
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT',SYSDATE);
         ELSE
-            DELETE FROM alerts where patient_id= :NEW.pid AND indicator=:NEW.indicator AND alert_type ='ABOVE LIMIT';
+            DELETE FROM alerts where patient_id= :NEW.pid AND indicator=:NEW.indicator AND alert_type IN ('ABOVE LIMIT');
         END IF;     
     ELSE
         select max(lower),max(upper) INTO low, high from recommendations r where r.patient_id IN (001,:NEW.pid) and r.disease_name in (Select disease_name from diagnosis where patient_id=:NEW.pid) and r.indicator = :NEW.indicator;
         IF :NEW.value < low THEN
-            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'BELOW LIMIT');
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'BELOW LIMIT',SYSDATE);
         ELSIF :NEW.value > high THEN
-            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT');
+            INSERT INTO alerts VALUES(:NEW.pid,:NEW.indicator,'ABOVE LIMIT',SYSDATE);
         ELSE
             DELETE FROM alerts where patient_id= :NEW.pid AND indicator=:NEW.indicator AND alert_type IN ('BELOW LIMIT', 'ABOVE LIMIT');
         END IF;
@@ -102,3 +101,4 @@ BEGIN
             NULL;
 END;
 /
+

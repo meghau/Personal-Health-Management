@@ -179,6 +179,7 @@ String patient_id=DBMS_Connection.loginID;
             ps.setDate(4,rec_date);
             ps.setInt(5,val);
             ps.executeUpdate();
+            con.commit();
     } catch (SQLException ex) {
         Logger.getLogger(Add_Measurement_of_Indicator.class.getName()).log(Level.SEVERE, null, ex);
     }

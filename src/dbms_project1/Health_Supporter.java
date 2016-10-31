@@ -111,7 +111,7 @@ public class Health_Supporter extends javax.swing.JFrame {
                 s1_combo.addItem(rs1.getString("id"));
                 s2_combo.addItem(rs1.getString("id"));
             }
-            
+            con.commit();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
@@ -546,6 +546,8 @@ public class Health_Supporter extends javax.swing.JFrame {
             s1_combo.setVisible(false);
             isEdited1=false;
             s1_delete.setVisible(true);
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -566,6 +568,8 @@ public class Health_Supporter extends javax.swing.JFrame {
             s2_combo.setVisible(false);
             isEdited2=false;
             s2_delete.setVisible(true);
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -605,6 +609,7 @@ public class Health_Supporter extends javax.swing.JFrame {
                 ps = con.prepareStatement(sql);
                 ps.executeUpdate();
                 con.setAutoCommit(true);
+                con.commit();
                 con.close();
             }
             isEdited1=false;
@@ -631,6 +636,7 @@ public class Health_Supporter extends javax.swing.JFrame {
                 ps = con.prepareStatement(sql);
                 ps.executeUpdate();
                 con.setAutoCommit(true);
+                con.commit();
                 con.close();
             }
             isEdited2=false;
@@ -679,6 +685,8 @@ public class Health_Supporter extends javax.swing.JFrame {
                 PreparedStatement ps2 = con.prepareStatement(sql);
                 ps2.executeUpdate();
             }*/
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -693,7 +701,8 @@ public class Health_Supporter extends javax.swing.JFrame {
             String sql="update "+table+" set ssid=null,s_auth_date=null where id='"+DBMS_Connection.loginID+"'";
             ps = con.prepareStatement(sql);
             ps.executeUpdate();
-                
+            con.commit();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }

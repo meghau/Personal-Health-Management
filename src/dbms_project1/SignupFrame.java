@@ -310,7 +310,7 @@ public class SignupFrame extends javax.swing.JFrame {
                 hsmf.setVisible(true);
             }
             JOptionPane.showMessageDialog(this, "Signup successful. Your login ID is "+DBMS_Connection.loginID);
-                
+            con.commit();    
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);

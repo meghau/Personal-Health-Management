@@ -45,7 +45,7 @@ public class Additional_Queries extends javax.swing.JFrame {
         pat_not_complying = new javax.swing.JButton();
         sick_HS = new javax.swing.JButton();
         wellPatients = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        diffObservedRecorded = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,7 +106,12 @@ public class Additional_Queries extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("jButton4");
+        diffObservedRecorded.setText("count(diff obsrv time and record time)");
+        diffObservedRecorded.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diffObservedRecordedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,7 +120,7 @@ public class Additional_Queries extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(diffObservedRecorded, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -157,7 +162,7 @@ public class Additional_Queries extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(wellPatients)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(diffObservedRecorded)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -305,6 +310,25 @@ public class Additional_Queries extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_wellPatientsActionPerformed
 
+    private void diffObservedRecordedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffObservedRecordedActionPerformed
+        try {
+                Connection con=DBMS_Connection.get();
+             //   String patient_id=DBMS_Connection.loginID;
+                String s="";
+                String query1="select count(distinct pid) from records where observation_date <> recorded_date";;
+                Statement stm=con.createStatement();
+                ResultSet rs=stm.executeQuery(query1);
+                while(rs.next())
+                {
+                    s=s+rs.getString(1)+"\n";
+                }
+                result.setText(s);
+                con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Additional_Queries.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_diffObservedRecordedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -340,11 +364,11 @@ public class Additional_Queries extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton diffObservedRecorded;
     private javax.swing.JButton hs_auth_sept;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JScrollPane jScrollPane1;
