@@ -6,6 +6,7 @@
  */
 package dbms_project1;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -206,8 +207,12 @@ public class LoginFrame extends javax.swing.JFrame {
                     
                     stmt = con.prepareStatement(sql1);
                     ResultSet rs1 = stmt.executeQuery(sql1);
-                    if(rs1.next())
+                    if(rs1.next()){
                         DBMS_Connection.patientType = "sick";
+                        CallableStatement c = con.prepareCall("{ call low_activity_alert(?)}");
+                        c.setString(1,uname_text.getText());
+                        c.execute();
+                    }
                     else
                         DBMS_Connection.patientType = "well";
                     Patient_Menu pm = new Patient_Menu();

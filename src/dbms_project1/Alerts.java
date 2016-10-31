@@ -5,7 +5,9 @@
  */
 package dbms_project1;
 
+import static dbms_project1.HealthSupMainFrame.setPid;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,17 +20,18 @@ import javax.swing.DefaultListModel;
  * @author aishu
  */
 public class Alerts extends javax.swing.JFrame {
-
+    int flag =0;
     /**
      * Creates new form Alerts
      */
     public Alerts() {
         try {
+            flag = 0;
             initComponents();
             Connection con=DBMS_Connection.get();
             String patient_id=DBMS_Connection.loginID;
             String s="";
-            String query1="select * from alerts WHERE Patient_id="+patient_id;
+            String query1="select * from alerts WHERE Patient_id='"+patient_id+"'";
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -41,7 +44,7 @@ public class Alerts extends javax.swing.JFrame {
                     s=rs.getString(1)+" - "+rs.getString(2)+" - "+rs.getString(3)+" - "+rs.getString(2)+"\n";
                     listModel.addElement(s);
                 }
-            
+                clearAlert.setVisible(false);
                 alertsList.setVisible(true);
                // add(jList1);
             } catch (SQLException ex) {
@@ -55,11 +58,12 @@ public class Alerts extends javax.swing.JFrame {
     }
     public Alerts(String id) {
         try {
+            flag = 1;
             initComponents();
             Connection con=DBMS_Connection.get();
             String patient_id=id;
             String s="";
-            String query1="select * from alerts WHERE Patient_id="+patient_id;
+            String query1="select * from alerts WHERE Patient_id='"+patient_id+"'";
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -98,6 +102,7 @@ public class Alerts extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         alertsList = new javax.swing.JList<>();
+        clearAlert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,22 +127,30 @@ public class Alerts extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(alertsList);
 
+        clearAlert.setText("Clear Selected Alert");
+        clearAlert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearAlertActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(clearAlert))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(213, 213, 213))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,10 +158,12 @@ public class Alerts extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(clearAlert))
+                .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,10 +176,36 @@ public class Alerts extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.setVisible(false);
-        Patient_Menu menu = new Patient_Menu();
-        menu.setVisible(true);
+        dispose();
+        if(flag == 1){
+            HSupPatientInfoFrame menu = new HSupPatientInfoFrame();
+            menu.setVisible(true);
+        } else {
+            new Patient_Menu().setVisible(true);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void clearAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAlertActionPerformed
+        // TODO add your handling code here:
+        String alert = alertsList.getSelectedValue();
+        String[] alertSplit = alert.split(" - ");
+        String id = alertSplit[0];
+        String ind = alertSplit[1];
+        String type = alertSplit[2];
+        Connection con = DBMS_Connection.get();
+        
+        PreparedStatement pstmt = null;
+        String hsid = DBMS_Connection.loginID;
+        String query1 = "delete from alerts where patient_id='"+id+"' and indicator='"+ind+"' and alert_type='"+type+"'";
+        try {
+            pstmt = con.prepareStatement(query1);
+            pstmt.execute();
+            con.commit();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_clearAlertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +244,7 @@ public class Alerts extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> alertsList;
+    private javax.swing.JButton clearAlert;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;

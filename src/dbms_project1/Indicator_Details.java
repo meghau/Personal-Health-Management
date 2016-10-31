@@ -33,7 +33,7 @@ String indicator=DBMS_Connection.indicator;
             System.out.println("In indicator details");
             Description_Indicator.setText(indicator);
             Description_Indicator.setEditable(false);
-            String query="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id=111 and disease_name in (Select disease_name from diagnosis where patient_id=111) and indicator='"+indicator+"'" ;
+            String query="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='"+patient_id+"' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query);
             if(rs.next()){
@@ -299,8 +299,8 @@ String indicator=DBMS_Connection.indicator;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        System.out.println(Integer.parseInt(freq.getText()));
-        if(Integer.parseInt(freq.getText())!=0)
+        System.out.println(freq.getText()+"a");
+        if(!("a".equals(freq.getText()+"a"))||indicator.equals("Mood")||indicator.equals("Pain"))
         {
         this.setVisible(false);
         Add_Measurement_of_Indicator amoi =new Add_Measurement_of_Indicator();
