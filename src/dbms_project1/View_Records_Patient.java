@@ -53,6 +53,7 @@ public class View_Records_Patient extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         records = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        back_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,6 +62,13 @@ public class View_Records_Patient extends javax.swing.JFrame {
         jScrollPane1.setViewportView(records);
 
         jLabel1.setText("View Records");
+
+        back_button.setText("Back");
+        back_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                back_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,15 +79,19 @@ public class View_Records_Patient extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
             .addGroup(layout.createSequentialGroup()
-                .addGap(255, 255, 255)
+                .addContainerGap()
+                .addComponent(back_button)
+                .addGap(152, 152, 152)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(back_button))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70))
@@ -87,6 +99,12 @@ public class View_Records_Patient extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_buttonActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        new Patient_Menu().setVisible(true);
+    }//GEN-LAST:event_back_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,6 +141,7 @@ public class View_Records_Patient extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton back_button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea records;

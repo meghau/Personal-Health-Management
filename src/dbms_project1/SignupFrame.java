@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -115,8 +116,6 @@ public class SignupFrame extends javax.swing.JFrame {
                 signup_buttonActionPerformed(evt);
             }
         });
-
-        jLabel7.setText("Phone No");
 
         phno_text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,6 +305,8 @@ public class SignupFrame extends javax.swing.JFrame {
                 HealthSupMainFrame hsmf = new HealthSupMainFrame();
                 hsmf.setVisible(true);
             }
+            JOptionPane.showMessageDialog(this, "Signup successful. Your login ID is "+DBMS_Connection.loginID);
+                
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(SignupFrame.class.getName()).log(Level.SEVERE, null, ex);

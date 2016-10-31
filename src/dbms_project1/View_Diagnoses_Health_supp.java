@@ -25,7 +25,7 @@ public class View_Diagnoses_Health_supp extends javax.swing.JFrame {
             
             Connection con=DBMS_Connection.get();
             //Statement stmt=con.createStatement();
-            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID="+patient_id;
+            String query1="select DISEASE_NAME from diagnosis WHERE PATIENT_ID='"+patient_id+"'";
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query1);
             

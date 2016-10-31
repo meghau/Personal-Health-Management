@@ -316,13 +316,15 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
     private void delAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delAccountButtonActionPerformed
         // TODO add your handling code here:
         try {
+            System.out.println("deleting account");
             Connection con = DBMS_Connection.get();
                 
-                String sql1 = "Select id from sick_patient s, well_patient w, patient p"
+                String sql1 = "Select p.id from sick_patient s, well_patient w, patient p"
                         +" where ((p.id=s.psid) OR (p.id=w.psid)) and p.id='"+DBMS_Connection.loginID+"'";
                 
-                String sql2 = "Select id from sick_patient s, well_patient w, patient p"
+                String sql2 = "Select p.id from sick_patient s, well_patient w, patient p"
                         +" where ((p.id=s.ssid) OR (p.id=w.ssid)) and p.id='"+DBMS_Connection.loginID+"'";             
+                
                 PreparedStatement ps = con.prepareStatement(sql1);
                 ResultSet rs1 = ps.executeQuery();
                 
@@ -338,6 +340,8 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
                     dispose();
                     new LoginFrame().setVisible(true);
                 } 
+                con.commit();
+                con.close();
         } catch (SQLException ex) {
             Logger.getLogger(HealthSupMainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

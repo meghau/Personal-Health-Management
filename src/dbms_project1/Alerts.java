@@ -5,6 +5,14 @@
  */
 package dbms_project1;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author aishu
@@ -15,7 +23,66 @@ public class Alerts extends javax.swing.JFrame {
      * Creates new form Alerts
      */
     public Alerts() {
-        initComponents();
+        try {
+            initComponents();
+            Connection con=DBMS_Connection.get();
+            String patient_id=DBMS_Connection.loginID;
+            String s="";
+            String query1="select * from alerts WHERE Patient_id="+patient_id;
+            Statement stm=con.createStatement();
+            ResultSet rs=stm.executeQuery(query1);
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            s=s+"PID - INDICATOR - ALERT TYPE - DATE"+"\n";
+            try {
+                alertsList.setModel(listModel);
+                listModel.addElement(s);
+                while(rs.next())
+                {
+                    s=rs.getString(1)+" - "+rs.getString(2)+" - "+rs.getString(3)+" - "+rs.getString(2)+"\n";
+                    listModel.addElement(s);
+                }
+            
+                alertsList.setVisible(true);
+               // add(jList1);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(View_records.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    public Alerts(String id) {
+        try {
+            initComponents();
+            Connection con=DBMS_Connection.get();
+            String patient_id=id;
+            String s="";
+            String query1="select * from alerts WHERE Patient_id="+patient_id;
+            Statement stm=con.createStatement();
+            ResultSet rs=stm.executeQuery(query1);
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            s=s+"PID - INDICATOR - ALERT TYPE - DATE"+"\n";
+            try {
+                alertsList.setModel(listModel);
+                listModel.addElement(s);
+                while(rs.next())
+                {
+                    s=rs.getString(1)+" - "+rs.getString(2)+" - "+rs.getString(3)+" - "+rs.getString(2)+"\n";
+                    listModel.addElement(s);
+                }
+            
+                alertsList.setVisible(true);
+               // add(jList1);
+            } catch (SQLException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(View_records.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -27,31 +94,12 @@ public class Alerts extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        alertsList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Health Indicator", "Alert Threshold"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Enter Missing Observation");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -67,36 +115,40 @@ public class Alerts extends javax.swing.JFrame {
             }
         });
 
+        alertsList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(alertsList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(115, 115, 115))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(159, 159, 159))))))
+                        .addGap(139, 139, 139)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(jButton1)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,9 +202,9 @@ public class Alerts extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> alertsList;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

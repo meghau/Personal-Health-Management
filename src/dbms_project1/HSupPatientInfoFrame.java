@@ -54,6 +54,11 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
         });
 
         alerts_button.setText("Alerts");
+        alerts_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                alerts_buttonActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Profile");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +158,13 @@ public class HSupPatientInfoFrame extends javax.swing.JFrame {
         View_records sd=new View_records();
         sd.setVisible(true);
     }//GEN-LAST:event_records_buttonActionPerformed
+
+    private void alerts_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alerts_buttonActionPerformed
+        // TODO add your handling code here:
+        String id = HealthSupMainFrame.getPid();
+        dispose();
+        new Alerts(id).setVisible(true);
+    }//GEN-LAST:event_alerts_buttonActionPerformed
 
     /**
      * @param args the command line arguments

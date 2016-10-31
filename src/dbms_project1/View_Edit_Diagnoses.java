@@ -159,8 +159,8 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                 String query="select psid from well_patient where id='"+DBMS_Connection.loginID+"'"; 
                 PreparedStatement ps=con.prepareStatement(query);
                 ResultSet rs1 = ps.executeQuery();
-                rs1.next();
-                if(rs1.getString(1) != null){
+                
+                if(!rs1.next()){
 
                     query="insert into diagnosis values(?,?)"; 
                     ps=con.prepareStatement(query);
@@ -199,7 +199,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(this,"Diasease exists!");
             }  
-            
+            con.commit();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(View_Edit_Diagnoses.class.getName()).log(Level.SEVERE, null, ex);
