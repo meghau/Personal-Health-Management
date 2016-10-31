@@ -160,7 +160,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
                 PreparedStatement ps=con.prepareStatement(query);
                 ResultSet rs1 = ps.executeQuery();
                 
-                if(!rs1.next()){
+                if(rs1.next()){
 
                     query="insert into diagnosis values(?,?)"; 
                     ps=con.prepareStatement(query);
