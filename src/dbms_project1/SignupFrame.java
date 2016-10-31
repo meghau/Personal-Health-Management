@@ -75,10 +75,11 @@ public class SignupFrame extends javax.swing.JFrame {
         auth2 = new javax.swing.JTextField();
         hsup1_combo = new javax.swing.JComboBox<>();
         hsup2_combo = new javax.swing.JComboBox<>();
+        id_text = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("SIGN UP");
+        jLabel1.setText("ID");
 
         jLabel2.setText("Name");
 
@@ -137,33 +138,6 @@ public class SignupFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(password_text)
-                            .addComponent(name_text)
-                            .addComponent(dob_text)
-                            .addComponent(address_text)
-                            .addComponent(phno_text))
-                        .addGap(129, 129, 129))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(gender_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,13 +162,43 @@ public class SignupFrame extends javax.swing.JFrame {
                         .addGap(166, 166, 166)
                         .addComponent(signup_button)))
                 .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel1))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(gender_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(id_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(password_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(name_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dob_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(address_text, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(phno_text, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(129, 129, 129))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(id_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -237,7 +241,7 @@ public class SignupFrame extends javax.swing.JFrame {
                     .addComponent(auth1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(auth2_lb)
                     .addComponent(auth2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(signup_button)
                 .addGap(15, 15, 15))
         );
@@ -258,7 +262,7 @@ public class SignupFrame extends javax.swing.JFrame {
             String categ = (String) category_combo.getSelectedItem();
             con = DBMS_Connection.get();
             CallableStatement stmt = con.prepareCall("{ call proc_signup_insert(?,?,?,?,?,?,?,?,?,?,?)}");
-            stmt.registerOutParameter(11, Types.VARCHAR);
+//            stmt.registerOutParameter(11, Types.VARCHAR);
             
             stmt.setString(1,dob_text.getText());
             stmt.setString(2,name_text.getText());
@@ -288,9 +292,9 @@ public class SignupFrame extends javax.swing.JFrame {
                 stmt.setString(9, null);
                 stmt.setString(10, "health supporter");
             }
-            
+            stmt.setString(11,id_text.getText());
             stmt.execute();
-            String generatedId = stmt.getString(11);
+            String generatedId = id_text.getText();
             dispose();
             DBMS_Connection.loginID = generatedId;
             System.out.print(generatedId);
@@ -422,6 +426,7 @@ public class SignupFrame extends javax.swing.JFrame {
     private javax.swing.JLabel hsup1_lb;
     private javax.swing.JComboBox<String> hsup2_combo;
     private javax.swing.JLabel hsup2_lb;
+    private javax.swing.JTextField id_text;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
