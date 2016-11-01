@@ -547,7 +547,6 @@ public class Health_Supporter extends javax.swing.JFrame {
             isEdited1=false;
             s1_delete.setVisible(true);
             con.commit();
-            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }

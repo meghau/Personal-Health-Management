@@ -258,7 +258,7 @@ public class Additional_Queries extends javax.swing.JFrame {
                 Connection con=DBMS_Connection.get();
              //   String patient_id=DBMS_Connection.loginID;
                 String s="";
-//                String query1="select count(distinct patient_id) from sick_patient s, patient p, diagnosis d where ((p.id=s.psid AND s.p_auth_date BETWEEN '01-Sep-2016' AND '30-Sep-2016') OR (p.id=s.ssid AND s.s_auth_date BETWEEN '01-Sep-2016' AND '30-Sep-2016')) AND s.id = d.patient_id AND d.disease_name = 'HD'";
+                String query1="select count(distinct patient_id) from alerts where alert_type='LOW FREQ'";
                 Statement stm=con.createStatement();
                 ResultSet rs=stm.executeQuery(query1);
                 while(rs.next())
