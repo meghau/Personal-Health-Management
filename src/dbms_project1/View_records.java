@@ -28,9 +28,7 @@ public class View_records extends javax.swing.JFrame {
             String s="";
             String query1="select * from records WHERE PID='"+patient_id+"'";
                 Statement stm=con.createStatement();
-                System.out.println("before query1");
                 ResultSet rs=stm.executeQuery(query1);
-                System.out.println("resultset ready");
                 s=s+"PID"+"      Indicator"+"      obsDate" +"               Rec Date"+"     Value"+"\n";
                 while(rs.next())
                 {

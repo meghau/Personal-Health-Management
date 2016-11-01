@@ -29,65 +29,70 @@ String indicator=DBMS_Connection.indicator;
     
         Connection con=DBMS_Connection.get();
     //'"+patient_id+"'
+           // System.out.println(PatientId:);
             Indicator_Value.setText(indicator);
             System.out.println("In indicator details");
             Description_Indicator.setText(indicator);
             Description_Indicator.setEditable(false);
             String query="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='"+patient_id+"' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
+            System.out.println(query);
             Statement stm=con.createStatement();
             ResultSet rs=stm.executeQuery(query);
-            if(rs.next()){
+            
                 if(rs.next())
                 {
-              //  System.out.println("patient_i");    
-                int frequency=rs.getInt(1);
-                int lower1=rs.getInt(2);
-                int upper1=rs.getInt(3);
-                int info=rs.getInt(4);
-                if(frequency!=0)
-                {
-                    freq.setText(Integer.toString(frequency));
-                    freq.setEditable(false);
-                }   
-                else
-                    freq.setEditable(false);
-                if(lower1==0 && upper1==0)
-                {
-                    lower_limit.setEditable(false);
-                    upper_limit.setEditable(false);
-                }
-                else
-                {
-                    lower_limit.setText(Integer.toString(lower1));
-                    upper_limit.setText(Integer.toString(upper1));
-                    lower_limit.setEditable(false);
-                    upper_limit.setEditable(false);
-                }
-                if(indicator=="Mood")
-                {
-                    if(info==0)
-                     Info.setText("Happy");
-                    else if(info==1)
-                      Info.setText("Neutral");
+                System.out.println("patient_i");    
+                    int frequency=rs.getInt(1);
+                    int lower1=rs.getInt(2);
+                    int upper1=rs.getInt(3);
+                    int info=rs.getInt(4);
+                    System.out.println(frequency);
+                    System.out.println(lower1);
+                    System.out.println(upper1);
+                    if(frequency!=0)
+                    {
+                        freq.setText(Integer.toString(frequency));
+                        freq.setEditable(false);
+                    }   
                     else
-                        Info.setText("Sad");
-                    Info.setEditable(false);
-                }   
-                else if(indicator=="Pain")
-                {
+                        freq.setEditable(false);
+                    if(lower1==0 && upper1==0)
+                    {
+                        lower_limit.setEditable(false);
+                        upper_limit.setEditable(false);
+                    }
+                    else
+                    {
+                        lower_limit.setText(Integer.toString(lower1));
+                        upper_limit.setText(Integer.toString(upper1));
+                        lower_limit.setEditable(false);
+                        upper_limit.setEditable(false);
+                    }
+                    if(indicator=="Mood")
+                    {
+                        if(info==0)
+                            Info.setText("Happy");
+                        else if(info==1)
+                            Info.setText("Neutral");
+                        else
+                            Info.setText("Sad");
+                      Info.setEditable(false);
+                     }   
+                    else if(indicator=="Pain")
+                    {
                     if(info==0)
                         Info.setEditable(false);
                     else
                         Info.setText(Integer.toString(info));
-                    Info.setEditable(false);
-                }
-                else
-                    Info.setEditable(false);
+                        Info.setEditable(false);
+                    }
+                    else
+                        Info.setEditable(false);
                 }
                 else
                 {
                 System.out.println(patient_id);
-                String query1="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id=001 and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
+                String query1="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='001' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
                 Statement stm1=con.createStatement();
                 ResultSet rs1=stm1.executeQuery(query1);
                 
@@ -143,7 +148,7 @@ String indicator=DBMS_Connection.indicator;
                     Info.setEditable(false);
                 }
                 }
-                }
+                
     } catch (SQLException ex) {
         Logger.getLogger(Indicator_Details.class.getName()).log(Level.SEVERE, null, ex);
     }
