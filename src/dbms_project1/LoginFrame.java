@@ -180,9 +180,9 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setVisible(false);
         if(patient_radio.isSelected()){
             System.out.print(uname_text.getText()+ " "+ pw_text.getText());
-            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
-//            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
-//                + "p.password = '" + pw_text.getText()+ "'";
+//            sql = "SELECT p.id FROM Patient p WHERE p.id = '"+ uname_text.getText()+"' AND p.password = '" + pw_text.getText()+ "'";
+            sql = "SELECT p.id FROM Patient p, Well_Patient w, Sick_patient s WHERE (p.id = w.id OR p.id = s.id) AND p.id = '"+ uname_text.getText()+"' AND "
+                + "p.password = '" + pw_text.getText()+ "'";
             System.out.println(sql);
             sql1 = "SELECT p.id FROM Patient p, Sick_patient s WHERE p.id = s.id AND p.id = '"+ uname_text.getText()+"' AND "
                 + "p.password = '" + pw_text.getText()+ "'";
@@ -209,6 +209,7 @@ public class LoginFrame extends javax.swing.JFrame {
                     ResultSet rs1 = stmt.executeQuery(sql1);
                     if(rs1.next()){
                         DBMS_Connection.patientType = "sick";
+                        System.out.println("sick login");
                         CallableStatement c = con.prepareCall("{ call low_activity_alert(?)}");
                         c.setString(1,uname_text.getText());
                         c.execute();

@@ -31,7 +31,11 @@ public class DBMS_Project1 {
             Scanner sc= new Scanner(f);
             
             StringBuilder sb = new StringBuilder();
-            String line = "";
+            String line="";
+//            String line = "drop table recommendations";
+            Connection con = DBMS_Connection.get();
+//            PreparedStatement stmt = con.prepareStatement(line);
+//            stmt.execute(line);
             
             while(sc.hasNext()){
                 line = sc.nextLine();
@@ -41,7 +45,7 @@ public class DBMS_Project1 {
             
             String[] sqlQueries = sql.split("===");
             PreparedStatement stmt = null;
-            Connection con = DBMS_Connection.get();
+            
 
             for(String s: sqlQueries){
 //                System.out.println(s);

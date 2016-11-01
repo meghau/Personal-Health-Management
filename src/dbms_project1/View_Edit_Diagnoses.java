@@ -68,7 +68,7 @@ public class View_Edit_Diagnoses extends javax.swing.JFrame {
         Current_Diag.setRows(5);
         jScrollPane1.setViewportView(Current_Diag);
 
-        disease.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "HD", "HIV", "COPD", " " }));
+        disease.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "HP", "HIV", "COPD", "None" }));
         disease.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 diseaseActionPerformed(evt);
