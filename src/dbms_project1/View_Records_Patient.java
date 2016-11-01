@@ -27,7 +27,7 @@ public class View_Records_Patient extends javax.swing.JFrame {
             Connection con=DBMS_Connection.get();
             String patient_id=DBMS_Connection.loginID;
             String s="";
-            String query1="select * from records WHERE PID="+patient_id;
+            String query1="select * from records WHERE PID='"+patient_id+"'";
                 Statement stm=con.createStatement();
                 ResultSet rs=stm.executeQuery(query1);
                 s=s+"PID"+"      Indicator"+"      obsDate" +"               Rec Date"+"     Value"+"\n";
