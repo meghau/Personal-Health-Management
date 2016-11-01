@@ -42,15 +42,12 @@ String patient_id=DBMS_Connection.loginID;
         jLabel4 = new javax.swing.JLabel();
         value = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        ddo = new javax.swing.JTextField();
-        montho = new javax.swing.JComboBox();
-        yyyyo = new javax.swing.JTextField();
-        ddr = new javax.swing.JTextField();
-        yyyyr = new javax.swing.JTextField();
-        monthr = new javax.swing.JComboBox();
+        obsdate = new javax.swing.JTextField();
+        recdate = new javax.swing.JTextField();
         value_lable = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,23 +64,24 @@ String patient_id=DBMS_Connection.loginID;
             }
         });
 
-        ddo.setText("dd");
-
-        montho.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-
-        yyyyo.setText("yyyy");
-
-        ddr.setText("dd");
-
-        yyyyr.setText("yyyy");
-
-        monthr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        recdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recdateActionPerformed(evt);
+            }
+        });
 
         value_lable.setText("Value:");
 
         jLabel1.setText("Pain: 1 to 10");
 
         jLabel3.setText("Mood: Happy:0,Neutral:1,Sad:2");
+
+        jButton2.setText("BACK");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,11 +98,7 @@ String patient_id=DBMS_Connection.loginID;
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(ddo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(montho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(yyyyo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(obsdate, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -112,20 +106,17 @@ String patient_id=DBMS_Connection.loginID;
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(ddr, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(monthr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(yyyyr, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(value, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(69, 69, 69)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
-                                            .addComponent(jLabel1)))))))
+                                            .addComponent(jLabel1)))
+                                    .addComponent(recdate, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)))
                 .addGap(252, 252, 252))
         );
         layout.setVerticalGroup(
@@ -138,16 +129,11 @@ String patient_id=DBMS_Connection.loginID;
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ddo, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(montho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(yyyyo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(obsdate, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ddr, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yyyyr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(monthr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recdate, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,7 +142,9 @@ String patient_id=DBMS_Connection.loginID;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
@@ -169,21 +157,31 @@ String patient_id=DBMS_Connection.loginID;
         Connection con=DBMS_Connection.get();
         indicator_name.setText(indicator);
         int val=Integer.parseInt(value.getText());
-        Date obs_date = new Date(montho.getSelectedIndex(),Integer.parseInt(ddo.getText()),Integer.parseInt(yyyyo.getText()));
-        Date rec_date = new Date(monthr.getSelectedIndex(),Integer.parseInt(ddr.getText()),Integer.parseInt(yyyyr.getText()));
+       
         String query="insert into records values(?,?,?,?,?)"; 
             PreparedStatement ps=con.prepareStatement(query);
             ps.setString(1,patient_id);
             ps.setString(2,indicator);
-            ps.setDate(3,obs_date);
-            ps.setDate(4,rec_date);
+            ps.setString(3,obsdate.getText());
+            ps.setString(4,recdate.getText());
             ps.setInt(5,val);
+            System.out.println(obsdate.getText());
             ps.executeUpdate();
-            con.commit();
     } catch (SQLException ex) {
         Logger.getLogger(Add_Measurement_of_Indicator.class.getName()).log(Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void recdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_recdateActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        All_Indicators ai=new All_Indicators();
+        ai.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,19 +218,16 @@ String patient_id=DBMS_Connection.loginID;
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ddo;
-    private javax.swing.JTextField ddr;
     private javax.swing.JLabel indicator_name;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JComboBox montho;
-    private javax.swing.JComboBox monthr;
+    private javax.swing.JTextField obsdate;
+    private javax.swing.JTextField recdate;
     private javax.swing.JTextField value;
     private javax.swing.JLabel value_lable;
-    private javax.swing.JTextField yyyyo;
-    private javax.swing.JTextField yyyyr;
     // End of variables declaration//GEN-END:variables
 }

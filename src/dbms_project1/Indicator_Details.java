@@ -31,82 +31,81 @@ String indicator=DBMS_Connection.indicator;
     //'"+patient_id+"'
            // System.out.println(PatientId:);
             Indicator_Value.setText(indicator);
-            System.out.println("In indicator details");
+            
             Description_Indicator.setText(indicator);
             Description_Indicator.setEditable(false);
-            String query="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='"+patient_id+"' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
-            System.out.println(query);
+            String query0="select * from recommendations where patient_id='"+patient_id+"' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
             Statement stm=con.createStatement();
-            ResultSet rs=stm.executeQuery(query);
-            
-                if(rs.next())
+            ResultSet rs11=stm.executeQuery(query0);
+            System.out.println(query0);   
+                if(rs11.next())
                 {
-                System.out.println("patient_i");    
-                    int frequency=rs.getInt(1);
-                    int lower1=rs.getInt(2);
-                    int upper1=rs.getInt(3);
-                    int info=rs.getInt(4);
-                    System.out.println(frequency);
-                    System.out.println(lower1);
-                    System.out.println(upper1);
-                    if(frequency!=0)
-                    {
-                        freq.setText(Integer.toString(frequency));
-                        freq.setEditable(false);
-                    }   
+                    String query="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='"+patient_id+"' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
+                    Statement stm11=con.createStatement();
+                    ResultSet rs=stm11.executeQuery(query);
+              //  System.out.println("patient_i");    
+                    rs.next();
+                int frequency=rs.getInt(1);
+                int lower1=rs.getInt(2);
+                int upper1=rs.getInt(3);
+                int info=rs.getInt(4);
+                if(frequency!=0)
+                {
+                    freq.setText(Integer.toString(frequency));
+                    freq.setEditable(false);
+                }   
+                else
+                    freq.setEditable(false);
+                if(lower1==0 && upper1==0)
+                {
+                    lower_limit.setEditable(false);
+                    upper_limit.setEditable(false);
+                }
+                else
+                {
+                    lower_limit.setText(Integer.toString(lower1));
+                    upper_limit.setText(Integer.toString(upper1));
+                    lower_limit.setEditable(false);
+                    upper_limit.setEditable(false);
+                }
+                if(indicator=="Mood")
+                {
+                    if(info==0)
+                     Info.setText("Happy");
+                    else if(info==1)
+                      Info.setText("Neutral");
                     else
-                        freq.setEditable(false);
-                    if(lower1==0 && upper1==0)
-                    {
-                        lower_limit.setEditable(false);
-                        upper_limit.setEditable(false);
-                    }
-                    else
-                    {
-                        lower_limit.setText(Integer.toString(lower1));
-                        upper_limit.setText(Integer.toString(upper1));
-                        lower_limit.setEditable(false);
-                        upper_limit.setEditable(false);
-                    }
-                    if(indicator=="Mood")
-                    {
-                        if(info==0)
-                            Info.setText("Happy");
-                        else if(info==1)
-                            Info.setText("Neutral");
-                        else
-                            Info.setText("Sad");
-                      Info.setEditable(false);
-                     }   
-                    else if(indicator=="Pain")
-                    {
+                        Info.setText("Sad");
+                    Info.setEditable(false);
+                }   
+                else if(indicator=="Pain")
+                {
                     if(info==0)
                         Info.setEditable(false);
                     else
                         Info.setText(Integer.toString(info));
-                        Info.setEditable(false);
-                    }
-                    else
-                        Info.setEditable(false);
+                    Info.setEditable(false);
+                }
+                else
+                    Info.setEditable(false);
                 }
                 else
                 {
-                System.out.println(patient_id);
+                System.out.println("In"+patient_id);
                 String query1="select max(frequency),max(lower),max(upper),max(info) from recommendations where patient_id='001' and disease_name in (Select disease_name from diagnosis where patient_id='"+patient_id+"') and indicator='"+indicator+"'" ;
                 Statement stm1=con.createStatement();
                 ResultSet rs1=stm1.executeQuery(query1);
-                
-          //      System.out.println("Yeswww");
+                System.out.println(query1);
                 if(rs1.next())
                 {
                 int frequency=rs1.getInt(1);
                 int lower1=rs1.getInt(2);
                 int upper1=rs1.getInt(3);
                 int info=rs1.getInt(4);
-            //    System.out.println(frequency);
-            //    System.out.println(lower1);
-            //    System.out.println(upper1);
-            //    System.out.println(info);
+               System.out.println(frequency);
+                System.out.println(lower1);
+                System.out.println(upper1);
+                System.out.println(info);
                 if(frequency!=0)
                 {
                     freq.setText(Integer.toString(frequency));

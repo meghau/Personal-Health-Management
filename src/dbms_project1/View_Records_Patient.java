@@ -16,18 +16,17 @@ import java.util.logging.Logger;
  * @author abc
  */
 public class View_Records_Patient extends javax.swing.JFrame {
-
+     String patient_id=DBMS_Connection.loginID;
     /**
      * Creates new form View_Records_Patient
      */
     public View_Records_Patient() {
         initComponents();
         try {
-            initComponents();
             Connection con=DBMS_Connection.get();
-            String patient_id=DBMS_Connection.loginID;
+//            String patient_id=HealthSupMainFrame.getPid();
             String s="";
-            String query1="select * from records WHERE PID='"+patient_id+"'";
+            String query1="select * from records WHERE PID='"+DBMS_Connection.loginID+"'";
                 Statement stm=con.createStatement();
                 ResultSet rs=stm.executeQuery(query1);
                 s=s+"PID"+"      Indicator"+"      obsDate" +"               Rec Date"+"     Value"+"\n";

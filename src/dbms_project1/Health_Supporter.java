@@ -62,8 +62,9 @@ public class Health_Supporter extends javax.swing.JFrame {
             s2_auth.setEditable(true);
             if(rs1.next()){
                 s1_add.setVisible(false);
-                s1_combo.setVisible(false);
-                
+                s1_combo.setEditable(false);
+                s1_combo.setSelectedItem(rs1.getString(1));
+                System.out.println("blah"+rs1.getString(1));
                 s1_name.setEditable(false);
                 s1_addr.setEditable(false);
 //                s1_phno.setEditable(false);
@@ -82,8 +83,9 @@ public class Health_Supporter extends javax.swing.JFrame {
             
             if(rs2.next()){
                 s2_add.setVisible(false);
-                s2_combo.setVisible(false);
-                
+                s2_combo.setEditable(false);
+                s2_combo.setSelectedItem(rs2.getString(1));
+                System.out.println("blah"+rs2.getString(1));
                 s2_name.setEditable(false);
                 s2_addr.setEditable(false);
                 s2_auth.setEditable(false);
@@ -543,7 +545,7 @@ public class Health_Supporter extends javax.swing.JFrame {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
             System.out.println("executed s1");
-            s1_combo.setVisible(false);
+            s1_combo.setEditable(false);
             isEdited1=false;
             s1_delete.setVisible(true);
             con.commit();
@@ -565,7 +567,7 @@ public class Health_Supporter extends javax.swing.JFrame {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
             System.out.println("executed s2");
-            s2_combo.setVisible(false);
+            s2_combo.setEditable(false);
             isEdited2=false;
             s2_delete.setVisible(true);
             con.commit();
@@ -575,25 +577,46 @@ public class Health_Supporter extends javax.swing.JFrame {
         }
     }
     
-    private void s1_editActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void s1_editActionPerformed(java.awt.event.ActionEvent evt) { 
+        try {
+            String sql1 = "select psid from "+table+" where id='"+DBMS_Connection.loginID+"'";
+            PreparedStatement  ps1 = DBMS_Connection.get().prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            if(rs1.next()){
+                s1_combo.setSelectedItem(rs1.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         s1_name.setEditable(true);
         s1_addr.setEditable(true);
         s1_auth.setEditable(true);
-        s1_combo.setVisible(true);
+        s1_combo.setEditable(true);
         isEdited1=true;
     }  
     
-    private void s2_editActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void s2_editActionPerformed(java.awt.event.ActionEvent evt) {     
+        try {
+            String sql1 = "select ssid from "+table+" where id='"+DBMS_Connection.loginID+"'";
+            PreparedStatement  ps1 = DBMS_Connection.get().prepareStatement(sql1);
+            ResultSet rs1 = ps1.executeQuery();
+            if(rs1.next()){
+                s2_combo.setSelectedItem(rs1.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         s2_name.setEditable(true);
         s2_addr.setEditable(true);
         s2_auth.setEditable(true);
-        s2_combo.setVisible(true);
+        s2_combo.setEditable(true);
         isEdited2=true;
     }  
     
     private void s1_saveActionPerformed(java.awt.event.ActionEvent evt) {                                       
         try {
-            s1_combo.setVisible(false);
+            s1_combo.setEditable(false);
             s1_name.setEditable(false);
             s1_addr.setEditable(false);
             s1_auth.setEditable(false);
@@ -620,7 +643,7 @@ public class Health_Supporter extends javax.swing.JFrame {
     
     private void s2_saveActionPerformed(java.awt.event.ActionEvent evt) {                                       
         try {
-            s2_combo.setVisible(false);
+            s2_combo.setEditable(false);
             s2_name.setEditable(false);
             s2_addr.setEditable(false);
             s2_auth.setEditable(false);
