@@ -173,10 +173,10 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
         
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        setPid(id[1]);
+        setPid(id[2]);
         String hsid = DBMS_Connection.loginID;
         System.out.println(id[1]);
-        String query1 = "select count(*) from well_patient wp where wp.id = '"+id[1]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
+        String query1 = "select count(*) from well_patient wp where wp.id = '"+id[2]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
            System.out.println("hi1");
             try {
                 pstmt = con.prepareStatement(query1);
@@ -207,7 +207,7 @@ public class HealthSupMainFrame extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String query2 = "select count(*) from sick_patient wp where wp.id = '"+id[1]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
+            String query2 = "select count(*) from sick_patient wp where wp.id = '"+id[2]+"' and ((wp.psid = '"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)) or (wp.ssid='"+hsid+"' and wp.p_auth_date <= (SELECT TO_CHAR (sysdate,'dd-mon-yy') \"now\" from dual)))";
            System.out.println("hi1");
             try {
                 pstmt = con.prepareStatement(query2);

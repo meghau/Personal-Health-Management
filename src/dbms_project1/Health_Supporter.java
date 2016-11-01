@@ -542,11 +542,12 @@ public class Health_Supporter extends javax.swing.JFrame {
             System.out.println(sql);
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
-            con.close();
+            System.out.println("executed s1");
             s1_combo.setVisible(false);
             isEdited1=false;
             s1_delete.setVisible(true);
             con.commit();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Health_Supporter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -563,7 +564,7 @@ public class Health_Supporter extends javax.swing.JFrame {
             System.out.println(sql);
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeUpdate();
-            con.close();
+            System.out.println("executed s2");
             s2_combo.setVisible(false);
             isEdited2=false;
             s2_delete.setVisible(true);
